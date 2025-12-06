@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation BTS CIEL - Épreuve E6</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container" style="text-align: center;">
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Évaluation BTS CIEL</h1>
+      <p style="font-size: 1.25rem;">Épreuve E6 : Valorisation de la donnée et cybersécurité</p>
+      <p id="jury-info" style="position: absolute; top: 1rem; left: 1rem; font-weight: 600; display: none; font-size: 0.875rem; opacity: 0.9; color: white;"></p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="message-container"></div>
+
+    <!-- Champs cachés pour stocker les valeurs de configuration -->
+    <input type="hidden" id="etablissement">
+    <input type="hidden" id="academie">
+    <input type="hidden" id="session">
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0;">Liste des élèves</h2>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <div class="action-menu">
+            <button id="btn-admin-menu" class="btn btn-secondary">
+              ⚙️ Gestion ▼
+            </button>
+            <div class="action-dropdown" id="admin-dropdown">
+              <button class="action-item" id="btn-manage-users">
+                👤 Gérer les utilisateurs
+              </button>
+              <button class="action-item" id="btn-manage-jury">
+                👥 Gérer les jurys
+              </button>
+              <button class="action-item" id="btn-manage-projets">
+                📁 Gestion des projets
+              </button>
+              <div class="action-divider"></div>
+              <button class="action-item" id="btn-print-recap">
+                🖨️ Imprimer tableau récapitulatif
+              </button>
+              <button class="action-item" id="btn-manage-config">
+                ⚙️ Configuration établissement
+              </button>
+              <button class="action-item" id="btn-change-password">
+                🔒 Changer mon mot de passe
+              </button>
+              <button class="action-item" id="btn-manage-lock" style="display: none;">
+                🔐 Gérer le verrouillage admin
+              </button>
+            </div>
+          </div>
+          <button id="btn-add-eleve" class="btn btn-primary">+ Ajouter un élève</button>
+        </div>
+      </div>
+
+      <table id="eleves-table">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th class="filter-header">
+              <span class="filter-label">Projet</span>
+              <select id="filter-projet" class="table-filter-hover">
+                <option value="">Tous</option>
+              </select>
+            </th>
+            <th class="filter-header">
+              <span class="filter-label">Jury</span>
+              <select id="filter-jury" class="table-filter-hover">
+                <option value="">Tous</option>
+                <option value="jury1">Jury 1</option>
+                <option value="jury2">Jury 2</option>
+                <option value="unassigned">Non assigné</option>
+              </select>
+            </th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="eleves-tbody">
+          <tr>
+            <td colspan="7" class="text-center">Chargement...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal pour ajouter un élève -->
+  <div id="modal-add-eleve" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Ajouter un nouvel élève</h3>
+        <button class="btn-close" id="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-add-eleve">
+          <div class="form-group">
+            <label for="new-nom">Nom *</label>
+            <input type="text" id="new-nom" required placeholder="Nom de l'élève">
+          </div>
+          <div class="form-group">
+            <label for="new-prenom">Prénom *</label>
+            <input type="text" id="new-prenom" required placeholder="Prénom de l'élève">
+          </div>
+          <div class="form-group">
+            <label for="new-promotion">Promotion *</label>
+            <input type="text" id="new-promotion" required placeholder="Ex: BTS CIEL IR 2025">
+          </div>
+          <div class="form-group">
+            <label for="new-numero">Numéro candidat *</label>
+            <input type="text" id="new-numero" required placeholder="Numéro du candidat">
+          </div>
+          <div class="form-group">
+            <label for="new-jury">Jury</label>
+            <select id="new-jury">
+              <option value="">-- Non assigné --</option>
+              <option value="jury1">Jury 1</option>
+              <option value="jury2">Jury 2</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-modal">Annuler</button>
+        <button class="btn btn-primary" id="btn-submit-eleve">Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour gérer les jurys -->
+  <div id="modal-manage-jury" class="modal hidden">
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3>Gestion des membres des jurys</h3>
+        <button class="btn-close" id="btn-close-jury-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Jury 1 -->
+        <div class="jury-section">
+          <h4 style="color: #667eea; margin-bottom: 1rem;">Jury 1</h4>
+          <div id="jury1-members"></div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-jury1-member" style="margin-top: 0.5rem;">+ Ajouter un membre</button>
+        </div>
+
+        <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e2e8f0;">
+
+        <!-- Jury 2 -->
+        <div class="jury-section">
+          <h4 style="color: #667eea; margin-bottom: 1rem;">Jury 2</h4>
+          <div id="jury2-members"></div>
+          <button class="btn btn-secondary btn-sm" id="btn-add-jury2-member" style="margin-top: 0.5rem;">+ Ajouter un membre</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-jury-modal">Annuler</button>
+        <button class="btn btn-primary" id="btn-save-jury">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour gérer les utilisateurs -->
+  <div id="modal-manage-users" class="modal hidden">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>Gestion des utilisateurs</h3>
+        <button class="btn-close" id="btn-close-users-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="users-list"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-users-modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour la configuration établissement -->
+  <div id="modal-manage-config" class="modal hidden">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>⚙️ Configuration établissement</h3>
+        <button class="btn-close" id="btn-close-config-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="modal-etablissement">Établissement *</label>
+          <input type="text" id="modal-etablissement" placeholder="Nom de l'établissement" required>
+        </div>
+        <div class="form-group">
+          <label for="modal-academie">Académie *</label>
+          <input type="text" id="modal-academie" placeholder="Nom de l'académie" required>
+        </div>
+        <div class="form-group">
+          <label for="modal-session">Session (année) *</label>
+          <input type="text" id="modal-session" placeholder="Ex: 2025" maxlength="4" pattern="[0-9]{4}" required>
+        </div>
+        <p style="color: #718096; font-size: 0.875rem; font-style: italic; margin-top: 1rem;">
+          ℹ️ Ces informations seront utilisées lors de la génération des fichiers Excel.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-config-modal">Annuler</button>
+        <button class="btn btn-primary" id="btn-save-config">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour changer le mot de passe -->
+  <div id="modal-change-password" class="modal hidden">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>🔒 Changer mon mot de passe</h3>
+        <button class="btn-close" id="btn-close-password-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="modal-change-password-form">
+          <div class="form-group">
+            <label for="modal-current-password">Mot de passe actuel *</label>
+            <input type="password" id="modal-current-password" required autocomplete="current-password">
+          </div>
+          <div class="form-group">
+            <label for="modal-new-password">Nouveau mot de passe *</label>
+            <input type="password" id="modal-new-password" required minlength="6" autocomplete="new-password">
+            <small style="color: #718096;">Minimum 6 caractères</small>
+          </div>
+          <div class="form-group">
+            <label for="modal-confirm-password">Confirmer le nouveau mot de passe *</label>
+            <input type="password" id="modal-confirm-password" required minlength="6" autocomplete="new-password">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-password-modal">Annuler</button>
+        <button class="btn btn-primary" id="btn-save-password">Modifier</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour la gestion des projets -->
+  <div id="modal-manage-projets" class="modal hidden">
+    <div class="modal-content" style="max-width: 900px;">
+      <div class="modal-header">
+        <h3>📁 Gestion des projets</h3>
+        <button class="btn-close" id="btn-close-projets-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <p style="margin: 0; color: #718096;">Gérez la liste des projets pour les étudiants</p>
+          <button id="btn-add-projet-modal" class="btn btn-primary">+ Ajouter un projet</button>
+        </div>
+        <div id="projets-list"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-projets-modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal pour la gestion du verrouillage (jury uniquement) -->
+  <div id="modal-manage-lock" class="modal hidden">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3>🔐 Gestion du verrouillage admin</h3>
+        <button class="btn-close" id="btn-close-lock-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: #718096; font-size: 0.875rem; margin-bottom: 1rem;">
+          Pendant la période d'évaluation, l'admin ne pourra pas accéder aux actions pour vos élèves (confidentialité).
+        </p>
+
+        <div id="lock-status-display" style="margin-bottom: 1.5rem;"></div>
+
+        <div class="form-group">
+          <label for="modal-lock-start">Date et heure de début</label>
+          <input type="datetime-local" id="modal-lock-start">
+        </div>
+        <div class="form-group">
+          <label for="modal-lock-end">Date et heure de fin</label>
+          <input type="datetime-local" id="modal-lock-end">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+          <button class="btn btn-primary" id="btn-set-lock" style="flex: 1;">Activer le verrouillage</button>
+          <button class="btn btn-secondary" id="btn-unlock-admin" style="flex: 1;">Débloquer maintenant</button>
+        </div>
+
+        <p style="color: #718096; font-size: 0.875rem; font-style: italic; margin-top: 1.5rem;">
+          ℹ️ Vous pouvez débloquer l'admin plus tôt si vos évaluations se terminent avant la date prévue.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-lock-modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/utils.js?v=24"></script>
+  <script src="/js/csrf.js?v=24"></script>
+  <script src="/js/auth-check.js?v=24"></script>
+  <script src="/js/main.js?v=24"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  e6-app:
+    build: .
+    container_name: eval-bts-ciel-e6
+    ports:
+      - "3001:3001"
+    volumes:
+      # Volumes pour la persistance des données
+      - e6-data:/app/data
+      - e6-export:/app/export
+      - e6-rapports:/app/rapports
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('https').get('https://localhost:3001', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  e6-data:
+    driver: local
+  e6-export:
+    driver: local
+  e6-rapports:
+    driver: local

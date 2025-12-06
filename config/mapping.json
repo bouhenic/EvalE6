@@ -1,0 +1,755 @@
+{
+  "sheetNames": {
+    "stage": "E6 STAGE - IR",
+    "revue1": "E6 REVUES - IR - R1",
+    "revue2": "E6 REVUES - IR - R2",
+    "revue3": "E6 REVUES - IR - R3",
+    "soutenance": "E6 SOUTENANCE - IR",
+    "recap": "FICHE RECAPITULATIVE E6 -  IR"
+  },
+
+  "identite": {
+    "session": {
+      "stage": "E7",
+      "revue1": "E6",
+      "revue2": "E6",
+      "revue3": "E6",
+      "soutenance": "E6"
+    },
+    "academie": {
+      "stage": "E8",
+      "revue1": "E7",
+      "revue2": "E7",
+      "revue3": "E7",
+      "soutenance": "E7",
+      "recap": "C20"
+    },
+    "etablissement": {
+      "stage": "E9",
+      "revue1": "E8",
+      "revue2": "E8",
+      "revue3": "E8",
+      "soutenance": "E8",
+      "recap": "C21"
+    },
+    "nom": {
+      "stage": "E10",
+      "revue1": "E9",
+      "revue2": "E9",
+      "revue3": "E9",
+      "soutenance": "E9",
+      "recap": "C22"
+    },
+    "prenom": {
+      "stage": "E11",
+      "revue1": "E10",
+      "revue2": "E10",
+      "revue3": "E10",
+      "soutenance": "E10",
+      "recap": "C23"
+    },
+    "numero": {
+      "stage": "E12",
+      "revue1": "E11",
+      "revue2": "E11",
+      "revue3": "E11",
+      "soutenance": "E11",
+      "recap": "C24"
+    },
+    "date": {
+      "stage": "E13",
+      "revue1": "E12",
+      "revue2": "E12",
+      "revue3": "E12",
+      "soutenance": "E12",
+      "recap": "C25"
+    }
+  },
+
+  "niveaux": {
+    "niveau_0": {
+      "colonne": "C",
+      "valeur": 0,
+      "label": "Non évalué"
+    },
+    "niveau_1": {
+      "colonne": "C",
+      "valeur": 1,
+      "label": "Non réalisé"
+    },
+    "niveau_2": {
+      "colonne": "D",
+      "valeur": 2,
+      "label": "Réalisation partielle"
+    },
+    "niveau_3": {
+      "colonne": "E",
+      "valeur": 3,
+      "label": "Réalisation satisfaisante"
+    },
+    "niveau_4": {
+      "colonne": "F",
+      "valeur": 4,
+      "label": "Réalisation très satisfaisante"
+    }
+  },
+
+  "evaluations": {
+    "stage": {
+      "competences": {
+        "C01": {
+          "nom": "COMMUNIQUER EN SITUATION PROFESSIONNELLE (FRANÇAIS/ANGLAIS)",
+          "criteres": [
+            {
+              "id": "c01_rapport",
+              "texte": "Le rapport (typographie, orthographe, illustration, lisibilité) est soigné, personnel et argumenté avec des enchaînements cohérents",
+              "ligne": 21
+            },
+            {
+              "id": "c01_support",
+              "texte": "Le support de présentation (typographie, orthographe, illustration, lisibilité) est soigné et soutient le discours avec des enchaînements cohérents",
+              "ligne": 22
+            },
+            {
+              "id": "c01_oral",
+              "texte": "La présentation orale est de qualité et claire",
+              "ligne": 23
+            },
+            {
+              "id": "c01_argumentation",
+              "texte": "L'argumentation lors de l'échange est de qualité",
+              "ligne": 24
+            },
+            {
+              "id": "c01_style",
+              "texte": "Le style, le ton et la terminologie utilisés sont adaptés - L'attitude et les comportements sont conformes aux règles de la profession",
+              "ligne": 26
+            }
+          ]
+        },
+        "C03": {
+          "nom": "GÉRER UN PROJET",
+          "criteres": [
+            {
+              "id": "c03_suivi",
+              "texte": "Les documents de suivis des tâches sont renseignés, le planning prévisionnel est mis à jour. Les éventuelles situations de handicap sont prises en compte",
+              "ligne": 33
+            },
+            {
+              "id": "c03_ressources",
+              "texte": "L'adéquation des ressources humaines et des ressources matérielles pour mener le projet est validée",
+              "ligne": 34
+            },
+            {
+              "id": "c03_communication",
+              "texte": "L'équipe projet communique correctement et gère les retards et les aléas",
+              "ligne": 35
+            },
+            {
+              "id": "c03_livrables",
+              "texte": "Les travaux sont réalisés et livrés avec la documentation en concordance avec les besoins du client",
+              "ligne": 36
+            },
+            {
+              "id": "c03_preparation",
+              "texte": "Le travail est préparé avec exigences de qualité - La résolution de problèmes nouveaux est réussie - Le travail en équipe est conduit de manière solidaire",
+              "ligne": 38
+            }
+          ]
+        },
+        "C08": {
+          "nom": "CODER",
+          "criteres": [
+            {
+              "id": "c08_environnement",
+              "texte": "Les environnements sont choisis et justifiés et les données de l'entreprise sont identifiées",
+              "ligne": 45
+            },
+            {
+              "id": "c08_versioning",
+              "texte": "Le code est versionné, commenté et le logiciel est documenté",
+              "ligne": 46
+            },
+            {
+              "id": "c08_developpement",
+              "texte": "Les composants logiciels individuels sont développés et la solution est intégrée et testée conformément aux spécifications du cahier des charges, des bonnes pratiques et des politiques de sécurité",
+              "ligne": 47
+            },
+            {
+              "id": "c08_resolution",
+              "texte": "La résolution de problèmes nouveaux est réussie - Le travail est effectué selon les attentes - Le travail est préparé avec exigences de qualité",
+              "ligne": 49
+            }
+          ]
+        },
+        "C10": {
+          "nom": "EXPLOITER UN RÉSEAU INFORMATIQUE",
+          "criteres": [
+            {
+              "id": "c10_identification",
+              "texte": "Les différents éléments matériels et/ou logiciels sont identifiés à partir d'un schéma fourni",
+              "ligne": 56
+            },
+            {
+              "id": "c10_fonctionnement",
+              "texte": "Le fonctionnement de certains équipements matériel et/ou logiciel du système d'information est expliqué",
+              "ligne": 57
+            },
+            {
+              "id": "c10_mise_a_jour",
+              "texte": "La mise à jour d'un matériel et/ou logiciel est proposée et justifiée",
+              "ligne": 58
+            },
+            {
+              "id": "c10_optimisation",
+              "texte": "Les optimisations ou résolution d'incidents nécessaires sont effectuées",
+              "ligne": 59
+            },
+            {
+              "id": "c10_resolution",
+              "texte": "La résolution de problèmes nouveaux est réussie - Le travail en équipe est solidaire - Des actions appropriées sont décidées",
+              "ligne": 61
+            }
+          ]
+        }
+      }
+    },
+    "revue1": {
+      "competences": {
+        "C01": {
+          "nom": "COMMUNIQUER EN SITUATION PROFESSIONNELLE (FRANÇAIS/ANGLAIS)",
+          "criteres": [
+            {
+              "id": "c01_rapport",
+              "texte": "Le rapport (typographie, orthographe, illustration, lisibilité) est soigné, personnel et argumenté avec des enchaînements cohérents",
+              "ligne": 20
+            },
+            {
+              "id": "c01_presentation",
+              "texte": "La présentation (typographie, orthographe, illustration, lisibilité) est soignée et soutient le discours avec des enchaînements cohérents",
+              "ligne": 21
+            },
+            {
+              "id": "c01_oral",
+              "texte": "La présentation orale est de qualitée et claire",
+              "ligne": 22
+            },
+            {
+              "id": "c01_argumentation",
+              "texte": "L'argumentation lors de l'échange est de qualité",
+              "ligne": 23
+            },
+            {
+              "id": "c01_style",
+              "texte": "- Le style, le ton et la terminologie utilisés sont adaptés à la personne et aux circonstances, notamment les éventuelles situations de handicap des personnes sont prises en compte\n- L'attitude, les comportements et le langage adoptés sont conformes aux règles de la profession, la réaction est adaptée au contexte",
+              "ligne": 25
+            }
+          ]
+        },
+        "C03": {
+          "nom": "GÉRER UN PROJET",
+          "criteres": [
+            {
+              "id": "c03_suivi",
+              "texte": "Les documents de suivis des tâches sont renseignés, le planning prévisionnel est mis à jour. Les éventuelles situation de handicap sont prisent en compte.",
+              "ligne": 32
+            },
+            {
+              "id": "c03_ressources",
+              "texte": "L'adéquation des ressources humaines et des ressources matérielles pour mener le projet est validée.",
+              "ligne": 33
+            },
+            {
+              "id": "c03_communication",
+              "texte": "L'équipe projet communique correctement et gère les retards et les aléas",
+              "ligne": 34
+            },
+            {
+              "id": "c03_livrables",
+              "texte": "Les travaux sont réalisés et livrés avec la documentation en concordance avec les besoins du client",
+              "ligne": 35
+            },
+            {
+              "id": "c03_preparation",
+              "texte": "- Le travail est préparé de façon à satisfaire les exigences de qualité, d'efficacité et d'échéancier\n- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens conformément aux règles de la fonction\n- Le travail en équipe est conduit de manière solidaire en contribuant par des idées et des efforts",
+              "ligne": 37
+            }
+          ]
+        }
+      }
+    },
+    "revue2": {
+      "competences": {
+        "C01": {
+          "nom": "COMMUNIQUER EN SITUATION PROFESSIONNELLE (FRANÇAIS/ANGLAIS)",
+          "criteres": [
+            {
+              "id": "c01_rapport",
+              "texte": "Le rapport (typographie, orthographe, illustration, lisibilité) est soigné, personnel et argumenté avec des enchaînements cohérents",
+              "ligne": 20
+            },
+            {
+              "id": "c01_presentation",
+              "texte": "La présentation (typographie, orthographe, illustration, lisibilité) est soignée et soutient le discours avec des enchaînements cohérents",
+              "ligne": 21
+            },
+            {
+              "id": "c01_oral",
+              "texte": "La présentation orale est de qualitée et claire",
+              "ligne": 22
+            },
+            {
+              "id": "c01_argumentation",
+              "texte": "L'argumentation lors de l'échange est de qualité",
+              "ligne": 23
+            },
+            {
+              "id": "c01_style",
+              "texte": "- Le style, le ton et la terminologie utilisés sont adaptés à la personne et aux circonstances, notamment les éventuelles situations de handicap des personnes sont prises en compte\n- L'attitude, les comportements et le langage adoptés sont conformes aux règles de la profession, la réaction est adaptée au contexte",
+              "ligne": 25
+            }
+          ]
+        },
+        "C03": {
+          "nom": "GÉRER UN PROJET",
+          "criteres": [
+            {
+              "id": "c03_suivi",
+              "texte": "Les documents de suivis des tâches sont renseignés, le planning prévisionnel est mis à jour. Les éventuelles situation de handicap sont prisent en compte.",
+              "ligne": 32
+            },
+            {
+              "id": "c03_ressources",
+              "texte": "L'adéquation des ressources humaines et des ressources matérielles pour mener le projet est validée.",
+              "ligne": 33
+            },
+            {
+              "id": "c03_communication",
+              "texte": "L'équipe projet communique correctement et gère les retards et les aléas",
+              "ligne": 34
+            },
+            {
+              "id": "c03_livrables",
+              "texte": "Les travaux sont réalisés et livrés avec la documentation en concordance avec les besoins du client",
+              "ligne": 35
+            },
+            {
+              "id": "c03_preparation",
+              "texte": "- Le travail est préparé de façon à satisfaire les exigences de qualité, d'efficacité et d'échéancier\n- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens conformément aux règles de la fonction\n- Le travail en équipe est conduit de manière solidaire en contribuant par des idées et des efforts",
+              "ligne": 37
+            }
+          ]
+        },
+        "C08": {
+          "nom": "CODER",
+          "criteres": [
+            {
+              "id": "c08_environnement",
+              "texte": "Les environnements sont choisis et justifiés et les données de l'entreprise sont identifiées",
+              "ligne": 44
+            },
+            {
+              "id": "c08_versioning",
+              "texte": "Le code est versionné, commenté et le logiciel est documenté",
+              "ligne": 45
+            },
+            {
+              "id": "c08_developpement",
+              "texte": "Les composants logiciels individuels sont développés conformément aux spécifications du cahier des charges, des bonnes pratiques et des différentes politiques de sécurité et de protection des données personnelles",
+              "ligne": 46
+            },
+            {
+              "id": "c08_integration",
+              "texte": "La solution (logicielle et matérielle) est intégrée et testée conformément aux spécifications du cahier des charges, des bonnes pratiques et des différentes politiques de sécurité et de protection des données personnelles",
+              "ligne": 47
+            },
+            {
+              "id": "c08_resolution",
+              "texte": "- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens conformément aux règles de la fonction\n- Le travail est effectué selon les attentes exprimées de temps, de quantité ou de qualité\n- Le travail est préparé de façon à satisfaire les exigences de qualité, d'efficacité et d'échéancier",
+              "ligne": 49
+            }
+          ]
+        },
+        "C10": {
+          "nom": "EXPLOITER UN RÉSEAU INFORMATIQUE",
+          "criteres": [
+            {
+              "id": "c10_identification",
+              "texte": "Les différents éléments matériels et/ou logiciels sont identifiés à partir d'un schéma fourni",
+              "ligne": 56
+            },
+            {
+              "id": "c10_verification",
+              "texte": "Le fonctionnement d'un équipement matériel et/ou logiciel est vérifié en tenant compte du contexte",
+              "ligne": 57
+            },
+            {
+              "id": "c10_mise_a_jour",
+              "texte": "La mise à jour d'un matériel et/ou logiciel est proposée et justifiée",
+              "ligne": 58
+            },
+            {
+              "id": "c10_optimisation",
+              "texte": "Les optimisations ou résolution d'incidents nécessaires sont effectuées",
+              "ligne": 59
+            },
+            {
+              "id": "c10_resolution",
+              "texte": "- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens\n- Le travail en équipe est conduit de manière solidaire en contribuant par des idées et des efforts\n- Face à un ensemble de faits, des actions appropriées à poser sont décidées",
+              "ligne": 61
+            }
+          ]
+        }
+      }
+    },
+    "revue3": {
+      "competences": {
+        "C01": {
+          "nom": "COMMUNIQUER EN SITUATION PROFESSIONNELLE (FRANÇAIS/ANGLAIS)",
+          "criteres": [
+            {
+              "id": "c01_rapport",
+              "texte": "Le rapport (typographie, orthographe, illustration, lisibilité) est soigné, personnel et argumenté avec des enchaînements cohérents",
+              "ligne": 20
+            },
+            {
+              "id": "c01_presentation",
+              "texte": "La présentation (typographie, orthographe, illustration, lisibilité) est soignée et soutient le discours avec des enchaînements cohérents",
+              "ligne": 21
+            },
+            {
+              "id": "c01_oral",
+              "texte": "La présentation orale est de qualitée et claire",
+              "ligne": 22
+            },
+            {
+              "id": "c01_argumentation",
+              "texte": "L'argumentation lors de l'échange est de qualité",
+              "ligne": 23
+            },
+            {
+              "id": "c01_style",
+              "texte": "- Le style, le ton et la terminologie utilisés sont adaptés à la personne et aux circonstances, notamment les éventuelles situations de handicap des personnes sont prises en compte\n- L'attitude, les comportements et le langage adoptés sont conformes aux règles de la profession, la réaction est adaptée au contexte",
+              "ligne": 25
+            }
+          ]
+        },
+        "C03": {
+          "nom": "GÉRER UN PROJET",
+          "criteres": [
+            {
+              "id": "c03_suivi",
+              "texte": "Les documents de suivis des tâches sont renseignés, le planning prévisionnel est mis à jour. Les éventuelles situation de handicap sont prisent en compte.",
+              "ligne": 32
+            },
+            {
+              "id": "c03_ressources",
+              "texte": "L'adéquation des ressources humaines et des ressources matérielles pour mener le projet est validée.",
+              "ligne": 33
+            },
+            {
+              "id": "c03_communication",
+              "texte": "L'équipe projet communique correctement et gère les retards et les aléas",
+              "ligne": 34
+            },
+            {
+              "id": "c03_livrables",
+              "texte": "Les travaux sont réalisés et livrés avec la documentation en concordance avec les besoins du client",
+              "ligne": 35
+            },
+            {
+              "id": "c03_preparation",
+              "texte": "- Le travail est préparé de façon à satisfaire les exigences de qualité, d'efficacité et d'échéancier\n- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens conformément aux règles de la fonction\n- Le travail en équipe est conduit de manière solidaire en contribuant par des idées et des efforts",
+              "ligne": 37
+            }
+          ]
+        },
+        "C08": {
+          "nom": "CODER",
+          "criteres": [
+            {
+              "id": "c08_environnement",
+              "texte": "Les environnements sont choisis et justifiés et les données de l'entreprise sont identifiées",
+              "ligne": 44
+            },
+            {
+              "id": "c08_versioning",
+              "texte": "Le code est versionné, commenté et le logiciel est documenté",
+              "ligne": 45
+            },
+            {
+              "id": "c08_developpement",
+              "texte": "Les composants logiciels individuels sont développés conformément aux spécifications du cahier des charges, des bonnes pratiques et des différentes politiques de sécurité et de protection des données personnelles",
+              "ligne": 46
+            },
+            {
+              "id": "c08_integration",
+              "texte": "La solution (logicielle et matérielle) est intégrée et testée conformément aux spécifications du cahier des charges, des bonnes pratiques et des différentes politiques de sécurité et de protection des données personnelles",
+              "ligne": 47
+            },
+            {
+              "id": "c08_resolution",
+              "texte": "- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens conformément aux règles de la fonction\n- Le travail est effectué selon les attentes exprimées de temps, de quantité ou de qualité\n- Le travail est préparé de façon à satisfaire les exigences de qualité, d'efficacité et d'échéancier",
+              "ligne": 49
+            }
+          ]
+        },
+        "C10": {
+          "nom": "EXPLOITER UN RÉSEAU INFORMATIQUE",
+          "criteres": [
+            {
+              "id": "c10_identification",
+              "texte": "Les différents éléments matériels et/ou logiciels sont identifiés à partir d'un schéma fourni",
+              "ligne": 56
+            },
+            {
+              "id": "c10_verification",
+              "texte": "Le fonctionnement d'un équipement matériel et/ou logiciel est vérifié en tenant compte du contexte",
+              "ligne": 57
+            },
+            {
+              "id": "c10_mise_a_jour",
+              "texte": "La mise à jour d'un matériel et/ou logiciel est proposée et justifiée",
+              "ligne": 58
+            },
+            {
+              "id": "c10_optimisation",
+              "texte": "Les optimisations ou résolution d'incidents nécessaires sont effectuées",
+              "ligne": 59
+            },
+            {
+              "id": "c10_resolution",
+              "texte": "- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens\n- Le travail en équipe est conduit de manière solidaire en contribuant par des idées et des efforts\n- Face à un ensemble de faits, des actions appropriées à poser sont décidées",
+              "ligne": 61
+            }
+          ]
+        }
+      }
+    },
+    "soutenance": {
+      "competences": {
+        "C01": {
+          "nom": "COMMUNIQUER EN SITUATION PROFESSIONNELLE (FRANÇAIS/ANGLAIS)",
+          "criteres": [
+            {
+              "id": "c01_rapport",
+              "texte": "Le rapport (typographie, orthographe, illustration, lisibilité) est soigné, personnel et argumenté avec des enchaînements cohérents",
+              "ligne": 20
+            },
+            {
+              "id": "c01_presentation",
+              "texte": "La présentation (typographie, orthographe, illustration, lisibilité) est soignée et soutient le discours avec des enchaînements cohérents",
+              "ligne": 21
+            },
+            {
+              "id": "c01_oral",
+              "texte": "La présentation orale est de qualitée et claire",
+              "ligne": 22
+            },
+            {
+              "id": "c01_argumentation",
+              "texte": "L'argumentation lors de l'échange est de qualité",
+              "ligne": 23
+            },
+            {
+              "id": "c01_style",
+              "texte": "- Le style, le ton et la terminologie utilisés sont adaptés à la personne et aux circonstances, notamment les éventuelles situations de handicap des personnes sont prises en compte\n- L'attitude, les comportements et le langage adoptés sont conformes aux règles de la profession, la réaction est adaptée au contexte",
+              "ligne": 25
+            }
+          ]
+        },
+        "C03": {
+          "nom": "GÉRER UN PROJET",
+          "criteres": [
+            {
+              "id": "c03_suivi",
+              "texte": "Les documents de suivis des tâches sont renseignés, le planning prévisionnel est mis à jour. Les éventuelles situation de handicap sont prisent en compte.",
+              "ligne": 32
+            },
+            {
+              "id": "c03_ressources",
+              "texte": "L'adéquation des ressources humaines et des ressources matérielles pour mener le projet est validée.",
+              "ligne": 33
+            },
+            {
+              "id": "c03_communication",
+              "texte": "L'équipe projet communique correctement et gère les retards et les aléas",
+              "ligne": 34
+            },
+            {
+              "id": "c03_livrables",
+              "texte": "Les travaux sont réalisés et livrés avec la documentation en concordance avec les besoins du client",
+              "ligne": 35
+            },
+            {
+              "id": "c03_preparation",
+              "texte": "- Le travail est préparé de façon à satisfaire les exigences de qualité, d'efficacité et d'échéancier\n- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens conformément aux règles de la fonction\n- Le travail en équipe est conduit de manière solidaire en contribuant par des idées et des efforts",
+              "ligne": 37
+            }
+          ]
+        },
+        "C08": {
+          "nom": "CODER",
+          "criteres": [
+            {
+              "id": "c08_environnement",
+              "texte": "Les environnements sont choisis et justifiés et les données de l'entreprise sont identifiées",
+              "ligne": 44
+            },
+            {
+              "id": "c08_versioning",
+              "texte": "Le code est versionné, commenté et le logiciel est documenté",
+              "ligne": 45
+            },
+            {
+              "id": "c08_developpement",
+              "texte": "Les composants logiciels individuels sont développés conformément aux spécifications du cahier des charges, des bonnes pratiques et des différentes politiques de sécurité et de protection des données personnelles",
+              "ligne": 46
+            },
+            {
+              "id": "c08_integration",
+              "texte": "La solution (logicielle et matérielle) est intégrée et testée conformément aux spécifications du cahier des charges, des bonnes pratiques et des différentes politiques de sécurité et de protection des données personnelles",
+              "ligne": 47
+            },
+            {
+              "id": "c08_resolution",
+              "texte": "- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens conformément aux règles de la fonction\n- Le travail est effectué selon les attentes exprimées de temps, de quantité ou de qualité\n- Le travail est préparé de façon à satisfaire les exigences de qualité, d'efficacité et d'échéancier",
+              "ligne": 49
+            }
+          ]
+        },
+        "C10": {
+          "nom": "EXPLOITER UN RÉSEAU INFORMATIQUE",
+          "criteres": [
+            {
+              "id": "c10_identification",
+              "texte": "Les différents éléments matériels et/ou logiciels sont identifiés à partir d'un schéma fourni",
+              "ligne": 56
+            },
+            {
+              "id": "c10_verification",
+              "texte": "Le fonctionnement d'un équipement matériel et/ou logiciel est vérifié en tenant compte du contexte",
+              "ligne": 57
+            },
+            {
+              "id": "c10_mise_a_jour",
+              "texte": "La mise à jour d'un matériel et/ou logiciel est proposée et justifiée",
+              "ligne": 58
+            },
+            {
+              "id": "c10_optimisation",
+              "texte": "Les optimisations ou résolution d'incidents nécessaires sont effectuées",
+              "ligne": 59
+            },
+            {
+              "id": "c10_resolution",
+              "texte": "- La résolution d'un problème nouveau imprévu est réussie en utilisant ses propres moyens\n- Le travail en équipe est conduit de manière solidaire en contribuant par des idées et des efforts\n- Face à un ensemble de faits, des actions appropriées à poser sont décidées",
+              "ligne": 61
+            }
+          ]
+        }
+      }
+    }
+  },
+
+  "commentaires": {
+    "commentaire_global": {
+      "stage": "A9",
+      "revue1": "A8",
+      "revue2": "A8",
+      "revue3": "A8",
+      "soutenance": "A8"
+    }
+  },
+
+  "champs_supplementaires": {
+    "stage": {
+      "note_calculee": {
+        "cellule": "F64",
+        "label": "Note calculée",
+        "readonly": true
+      },
+      "bonus": {
+        "cellule": "C63",
+        "label": "Bonus (max 2 points)",
+        "max": 2
+      },
+      "note_finale": {
+        "cellule": "C64",
+        "label": "Note finale proposée"
+      }
+    },
+    "revue1": {
+      "note_calculee": {
+        "cellule": "F64",
+        "label": "Note calculée",
+        "readonly": true
+      },
+      "bonus": {
+        "cellule": "C63",
+        "label": "Bonus (max 2 points)",
+        "max": 2
+      },
+      "note_finale": {
+        "cellule": "C64",
+        "label": "Note finale proposée"
+      }
+    },
+    "revue2": {
+      "note_calculee": {
+        "cellule": "F64",
+        "label": "Note calculée",
+        "readonly": true
+      },
+      "bonus": {
+        "cellule": "C63",
+        "label": "Bonus (max 2 points)",
+        "max": 2
+      },
+      "note_finale": {
+        "cellule": "C64",
+        "label": "Note finale proposée"
+      }
+    },
+    "revue3": {
+      "note_calculee": {
+        "cellule": "F64",
+        "label": "Note calculée",
+        "readonly": true
+      },
+      "bonus": {
+        "cellule": "C63",
+        "label": "Bonus (max 2 points)",
+        "max": 2
+      },
+      "note_finale": {
+        "cellule": "C64",
+        "label": "Note finale proposée"
+      }
+    },
+    "soutenance": {
+      "note_calculee": {
+        "cellule": "F64",
+        "label": "Note calculée",
+        "readonly": true
+      },
+      "bonus": {
+        "cellule": "C63",
+        "label": "Bonus (max 2 points)",
+        "max": 2
+      },
+      "note_finale": {
+        "cellule": "C64",
+        "label": "Note finale proposée"
+      }
+    }
+  },
+
+  "jury_members": {
+    "recap": {
+      "member1": "B40",
+      "member2": "B42",
+      "member3": "B44"
+    }
+  }
+}

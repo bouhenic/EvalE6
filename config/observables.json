@@ -1,0 +1,507 @@
+{
+  "stage": {
+    "c01_rapport": [
+      "La page de titre contient les informations utiles (nom du candidat, nom de l'entreprise, année, nom du lycée, BTS et option) ainsi qu'une illustration adaptée.",
+      "Les entêtes et pieds de pages contiennent au minimum le numéro de la page et le nom du candidat.",
+      "Le sommaire automatique est présenté sur une seule page.",
+      "L'introduction est claire et logique, elle présente bien le contenu du rapport.",
+      "La conclusion est intéressante, un bilan du stage est rédigé, et des perspectives sont présentées."
+    ],
+    "c01_support": [
+      "L'entreprise est présentée (type d'entreprise, raison sociale, le service informatique et son fonctionnement). Le vocabulaire technique est expliqué, les logiciels utilisés et les matériels réseaux sont présentés.",
+      "La conclusion et l'introduction sont claires, précises et intéressantes, un bilan et les perspectives sont présentées.",
+      "L'entreprise est présentée (type d'entreprise, raison sociale, le service informatique et son fonctionnement)."
+    ],
+    "c01_oral": [
+      "Respect du temps de parole = 15 minutes. Détachement des notes.",
+      "S'exprime en regardant l'auditoire.",
+      "Qualité de l'expression : Expression distincte, fluide, non familière.",
+      "Clarté de l'exposé.",
+      "Enchaînement logique des idées, argumentation."
+    ],
+    "c01_argumentation": [
+      "L'échange est courtois.",
+      "Le candidat écoute les questions du jury, les reformule s'il ne les comprend pas.",
+      "Les réponses apportées sont appropriées et témoignent d'une capacité à mobiliser ses connaissances à bon escient et à les exposer clairement.",
+      "Des arguments sont utilisés et les erreurs sont corrigées."
+    ],
+    "c01_style": [
+      "Le style, le ton et la terminologie utilisés sont adaptés.",
+      "L'attitude et les comportements sont conformes aux règles de la profession."
+    ],
+    "c03_suivi": [
+      "Les documents / logiciels de suivi des activités professionnelles sont identifiés (GMAO, GLPI, comptes-rendus d'interventions…).",
+      "Les documents / logiciels de suivi des activités professionnelles sont utilisés à bon escient.",
+      "Les méthodes de conduite de projet ou à défaut celles d'organisation du temps de travail dans la structure sont identifiées.",
+      "Le reporting hebdomadaire du stage / du projet est présenté."
+    ],
+    "c03_ressources": [
+      "Les fonctions de chaque service côtoyé par l'entreprise sont identifiées par l'étudiant.",
+      "Sur un des projets ou une des activités de l'entreprise, les ressources matérielles sont identifiées.",
+      "Sur un des projets ou une des activités de l'entreprise, les différents acteurs du projet (sous-traitants, clients, prestataires, fournisseurs, maitre d'œuvre, maitre d'ouvrage, utilisateurs, exploitants) sont identifiés par l'étudiant.",
+      "La composition du service d'accueil de l'étudiant est présentée."
+    ],
+    "c03_communication": [
+      "Les échanges liés aux projets et/ou aux activités dans l'entreprise sont identifiés, notamment à travers les réunions de suivi, les courriels, les relations clients / fournisseurs.",
+      "L'étudiant participe aux réunions d'équipe et aux communications professionnelles de l'entreprise.",
+      "L'équipe projet ou l'équipe en charge de l'activité est identifiée, le rôle de chacun est connu.",
+      "Les retards et aléas potentiels sont identifiés et pris en compte."
+    ],
+    "c03_livrables": [
+      "L'étudiant reformule les besoins du client liés à son stage.",
+      "Un reporting régulier à minima hebdomadaire est fait par l'étudiant à son tuteur.",
+      "L'étudiant présente les retours qu'il a fait sur les taches qui lui ont été confiées.",
+      "Les documentations liées aux travaux effectués par le stagiaire sont présentées."
+    ],
+    "c08_environnement": [
+      "Les missions et/ou le cahier des charges du stage sont présentés.",
+      "Le contexte technique est présenté (matériels et logiciels).",
+      "L'environnement technique est justifié vis à vis de l'activité.",
+      "Des diagrammes permettent de synthétiser le contexte."
+    ],
+    "c08_versioning": [
+      "Le versionnement et l'archivage des différents logiciels/matériels sont présentés.",
+      "Les différents documents de la vie de l'entreprise sont présentés.",
+      "Les cycles de tests matériels/logiciels sont présentés.",
+      "Les documents créés ou complétés par le stagiaire sont présentés."
+    ],
+    "c08_developpement": [
+      "Un bilan technique de chaque mission ou projet est présenté.",
+      "Une analyse des retards et des aléas est présentée.",
+      "Les documents règlementaires (CNIL/RGPD/ISO / règlementation sectorielle) normatifs adoptés au sein de l'entreprise et du secteur de la sécurité des systèmes d'information sont présentés.",
+      "Des propositions sont émises afin d'améliorer la cybersécurité dans l'entreprise."
+    ],
+    "c10_identification": [
+      "Les différents éléments matériels et/ou logiciels du système d'information de l'entreprise sont identifiés.",
+      "Un diagramme de réseau ou équivalent est utilisé pour les présenter.",
+      "Le rôle des différents éléments est compris.",
+      "Les caractéristiques permettant de choisir ou comparer les éléments sont appréhendées."
+    ],
+    "c10_fonctionnement": [
+      "Le fonctionnement de certains équipements matériel du système d'information sont expliqués.",
+      "Les matériels de couche 2 sont présentés.",
+      "Les matériels de couche 3 sont présenté ainsi que les interconnexions.",
+      "Le fonctionnement de certains équipements logiciel du système d'information sont expliqués."
+    ],
+    "c10_mise_a_jour": [
+      "Une activité réalisée par le stagiaire est décrite.",
+      "La présentation de l'activité est qualitative et permet de comprendre le rôle de l'étudiant et son apport.",
+      "L'objectif de cette activité est justifié.",
+      "Les procédures de mise à jour des logiciels et renouvellements matériels de l'entreprise sont présentés."
+    ],
+    "c10_optimisation": [
+      "Les procédures internes (GLPI, GMAO, processus internes…) sont suivies par l'étudiant.",
+      "Les tests sont réalisés en suivant les procédures, le défaut est identifié, corrigé, le PV d'anomalie est rédigé.",
+      "Les documentations relatives à l'installation ou la procédure d'intervention sont éventuellement mises à jour.",
+      "Le stagiaire peut présenter l'analyse de ses pratiques sur l'activité réalisée et en dresser un bilan."
+    ]
+  },
+  "revue1": {
+    "c01_rapport": [
+      "La page de titre contient les informations utiles (nom du candidat, nom de l'entreprise, année, nom du lycée, BTS et option) ainsi qu'une illustration adaptée.",
+      "Les entêtes et pieds de pages contiennent au minimum le numéro de la page et le nom du candidat.",
+      "Le sommaire automatique est présenté sur une seule page.",
+      "Les chapitres s'enchaînent de façon logique, chaque chapitre est introduit par une phrase et conclu par une phrase.",
+      "Chaque illustration est expliquée ou présentée avec une légende."
+    ],
+    "c01_support": [
+      "Le support est un travail personnel et ne comporte pas de faute d'orthographe.",
+      "La typographie et les illustrations sont soignées afin de rendre le support lisible.",
+      "La police est adaptée.",
+      "Le plan est proposé et cohérent.",
+      "L'introduction et la conclusion sont présentes.",
+      "Les informations choisies sont synthétiques et elles sont support du discours."
+    ],
+    "c01_oral": [
+      "Le temps de parole est respecté.",
+      "Détachement des notes.",
+      "S'exprime en regardant l'auditoire.",
+      "L'expression est de qualité : le langage est distinct, fluide et non familier.",
+      "L'exposé est clair et les idées s'enchainent logiquement.",
+      "Le candidat utilise l'espace pour sa présentation."
+    ],
+    "c01_argumentation": [
+      "L'échange est courtois.",
+      "Le candidat écoute les questions du jury, les reformule s'il ne les comprend pas.",
+      "Les réponses apportées sont appropriées et témoignent d'une capacité à mobiliser ses connaissances à bon escient et à les exposer clairement.",
+      "Des arguments sont utilisés et les erreurs sont corrigées."
+    ],
+    "c03_suivi": [
+      "Les taches de l'ensemble de l'équipe sont présentées via par exemple un diagramme de Gantt.",
+      "L'avancement de chaque tâche est renseigné.",
+      "L'avancement est réel et témoigne de son implication dans le projet."
+    ],
+    "c03_ressources": [
+      "L'architecture des composants logiciels et matériels du projet sont présentés, un diagramme SYSML de bd/ibd ou UML déploiement est utilisé pour cela.",
+      "Les moyens disponibles pour réaliser le projet sont présentés.",
+      "Le périmètre de chaque candidat est identifié.",
+      "La présentation du périmètre fonctionnel de chacun des candidats est faite par un diagramme de cas d'utilisation."
+    ],
+    "c03_communication": [
+      "Un espace collaboratif (partage et modification de documents, suivi de projet, etc.) est présenté.",
+      "La mise en œuvre de l'espace collaboratif est démontrée.",
+      "Le planning effectif est comparé au planning prévisionnel pour permettre un constat.",
+      "L'écart entre le temps prévisionnel et le temps réalisé est justifié."
+    ],
+    "c03_livrables": [
+      "Les différents reportings et versionings sont listés et présentés.",
+      "Un espace collaboratif contient les différentes versions de livraison du projet.",
+      "La dernière livraison est intégrée et packagée.",
+      "Un cahier de recette est présenté pour démontrer les concordances entre les besoins et la réalisation."
+    ],
+    "c08_environnement": [
+      "Le choix de l'environnement de développement est justifié.",
+      "Les librairies utilisées sont justifiées.",
+      "Les contraintes du client sont identifiées (cybersécurité, matériels, capteurs...).",
+      "Un diagramme présente l'architecture des données (Base de données, XML, JSON...)."
+    ],
+    "c08_versioning": [
+      "Un outil de versionnement est en place.",
+      "Le fonctionnement de l'outil de versionnement est démontré.",
+      "Chaque composant est versionné.",
+      "Chaque composant est documenté."
+    ],
+    "c08_developpement": [
+      "Les tests unitaires sont réalisés et tracés dans un cahier.",
+      "Le test unitaire permet de valider les spécifications.",
+      "Les interfaces entre les composants sont documentées par un diagramme de classes ou équivalent.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c08_integration": [
+      "Les composants du projet sont intégrés.",
+      "Une recette permet de valider les spécifications.",
+      "Pour chaque cas d'utilisation : Le cas nominal et les scénarios alternatifs sont conformes.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c10_identification": [
+      "L'architecture matérielle du projet est présentée.",
+      "Un diagramme de réseau ou équivalent est utilisé pour la présentation.",
+      "L'architecture des composants logiciels du projet est présentée, un diagramme UML de déploiement ou équivalent est utilisé.",
+      "Le choix des matériels (actionneurs/capteurs) est justifié."
+    ],
+    "c10_fonctionnement": [
+      "Le fonctionnement des matériels (actionneurs/capteurs) est explicité.",
+      "La mise en œuvre des capteurs est démontrée.",
+      "La communication et le format des données échangées entre les matériels sont analysés et documentés.",
+      "Les outils d'analyse réseau sont maîtrisés (oscillogramme, sniffeur, ping, traceroute, telnet...)."
+    ],
+    "c10_mise_a_jour": [
+      "Les versions des matériels et logiciels sont listées.",
+      "Les logiciels, pilotes sont à jours.",
+      "La configuration des éléments matériels et logiciel sont à même de permettre une bonne résistance aux attaques.",
+      "Les enjeux de la cybersécurité (faille de sécurité, signature, certificats...) des mises à jour sont pris en compte."
+    ],
+    "c10_optimisation": [
+      "Les outils de diagnostic sont connus.",
+      "L'outil adéquat est utilisé pour le test.",
+      "Le résultat de l'outil de test est correctement interprété.",
+      "La mise au point ou la résolution d'incident est correcte."
+    ]
+  },
+  "revue2": {
+    "c01_rapport": [
+      "La page de titre contient les informations utiles (nom du candidat, nom de l'entreprise, année, nom du lycée, BTS et option) ainsi qu'une illustration adaptée.",
+      "Les entêtes et pieds de pages contiennent au minimum le numéro de la page et le nom du candidat.",
+      "Le sommaire automatique est présenté sur une seule page.",
+      "Les chapitres s'enchaînent de façon logique, chaque chapitre est introduit par une phrase et conclu par une phrase.",
+      "Chaque illustration est expliquée ou présentée avec une légende."
+    ],
+    "c01_support": [
+      "Le support est un travail personnel et ne comporte pas de faute d'orthographe.",
+      "La typographie et les illustrations sont soignées afin de rendre le support lisible.",
+      "La police est adaptée.",
+      "Le plan est proposé et cohérent.",
+      "L'introduction et la conclusion sont présentes.",
+      "Les informations choisies sont synthétiques et elles sont support du discours."
+    ],
+    "c01_oral": [
+      "Le temps de parole est respecté.",
+      "Détachement des notes.",
+      "S'exprime en regardant l'auditoire.",
+      "L'expression est de qualité : le langage est distinct, fluide et non familier.",
+      "L'exposé est clair et les idées s'enchainent logiquement.",
+      "Le candidat utilise l'espace pour sa présentation."
+    ],
+    "c01_argumentation": [
+      "L'échange est courtois.",
+      "Le candidat écoute les questions du jury, les reformule s'il ne les comprend pas.",
+      "Les réponses apportées sont appropriées et témoignent d'une capacité à mobiliser ses connaissances à bon escient et à les exposer clairement.",
+      "Des arguments sont utilisés et les erreurs sont corrigées."
+    ],
+    "c03_suivi": [
+      "Les taches de l'ensemble de l'équipe sont présentées via par exemple un diagramme de Gantt.",
+      "L'avancement de chaque tâche est renseigné.",
+      "L'avancement est réel et témoigne de son implication dans le projet."
+    ],
+    "c03_ressources": [
+      "L'architecture des composants logiciels et matériels du projet sont présentés, un diagramme SYSML de bd/ibd ou UML déploiement est utilisé pour cela.",
+      "Les moyens disponibles pour réaliser le projet sont présentés.",
+      "Le périmètre de chaque candidat est identifié.",
+      "La présentation du périmètre fonctionnel de chacun des candidats est faite par un diagramme de cas d'utilisation."
+    ],
+    "c03_communication": [
+      "Un espace collaboratif (partage et modification de documents, suivi de projet, etc.) est présenté.",
+      "La mise en œuvre de l'espace collaboratif est démontrée.",
+      "Le planning effectif est comparé au planning prévisionnel pour permettre un constat.",
+      "L'écart entre le temps prévisionnel et le temps réalisé est justifié."
+    ],
+    "c03_livrables": [
+      "Les différents reportings et versionings sont listés et présentés.",
+      "Un espace collaboratif contient les différentes versions de livraison du projet.",
+      "La dernière livraison est intégrée et packagée.",
+      "Un cahier de recette est présenté pour démontrer les concordances entre les besoins et la réalisation."
+    ],
+    "c08_environnement": [
+      "Le choix de l'environnement de développement est justifié.",
+      "Les librairies utilisées sont justifiées.",
+      "Les contraintes du client sont identifiées (cybersécurité, matériels, capteurs...).",
+      "Un diagramme présente l'architecture des données (Base de données, XML, JSON...)."
+    ],
+    "c08_versioning": [
+      "Un outil de versionnement est en place.",
+      "Le fonctionnement de l'outil de versionnement est démontré.",
+      "Chaque composant est versionné.",
+      "Chaque composant est documenté."
+    ],
+    "c08_developpement": [
+      "Les tests unitaires sont réalisés et tracés dans un cahier.",
+      "Le test unitaire permet de valider les spécifications.",
+      "Les interfaces entre les composants sont documentées par un diagramme de classes ou équivalent.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c08_integration": [
+      "Les composants du projet sont intégrés.",
+      "Une recette permet de valider les spécifications.",
+      "Pour chaque cas d'utilisation : Le cas nominal et les scénarios alternatifs sont conformes.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c10_identification": [
+      "L'architecture matérielle du projet est présentée.",
+      "Un diagramme de réseau ou équivalent est utilisé pour la présentation.",
+      "L'architecture des composants logiciels du projet est présentée, un diagramme UML de déploiement ou équivalent est utilisé.",
+      "Le choix des matériels (actionneurs/capteurs) est justifié."
+    ],
+    "c10_fonctionnement": [
+      "Le fonctionnement des matériels (actionneurs/capteurs) est explicité.",
+      "La mise en œuvre des capteurs est démontrée.",
+      "La communication et le format des données échangées entre les matériels sont analysés et documentés.",
+      "Les outils d'analyse réseau sont maîtrisés (oscillogramme, sniffeur, ping, traceroute, telnet...)."
+    ],
+    "c10_mise_a_jour": [
+      "Les versions des matériels et logiciels sont listées.",
+      "Les logiciels, pilotes sont à jours.",
+      "La configuration des éléments matériels et logiciel sont à même de permettre une bonne résistance aux attaques.",
+      "Les enjeux de la cybersécurité (faille de sécurité, signature, certificats...) des mises à jour sont pris en compte."
+    ],
+    "c10_optimisation": [
+      "Les outils de diagnostic sont connus.",
+      "L'outil adéquat est utilisé pour le test.",
+      "Le résultat de l'outil de test est correctement interprété.",
+      "La mise au point ou la résolution d'incident est correcte."
+    ]
+  },
+  "revue3": {
+    "c01_rapport": [
+      "La page de titre contient les informations utiles (nom du candidat, nom de l'entreprise, année, nom du lycée, BTS et option) ainsi qu'une illustration adaptée.",
+      "Les entêtes et pieds de pages contiennent au minimum le numéro de la page et le nom du candidat.",
+      "Le sommaire automatique est présenté sur une seule page.",
+      "Les chapitres s'enchaînent de façon logique, chaque chapitre est introduit par une phrase et conclu par une phrase.",
+      "Chaque illustration est expliquée ou présentée avec une légende."
+    ],
+    "c01_support": [
+      "Le support est un travail personnel et ne comporte pas de faute d'orthographe.",
+      "La typographie et les illustrations sont soignées afin de rendre le support lisible.",
+      "La police est adaptée.",
+      "Le plan est proposé et cohérent.",
+      "L'introduction et la conclusion sont présentes.",
+      "Les informations choisies sont synthétiques et elles sont support du discours."
+    ],
+    "c01_oral": [
+      "Le temps de parole est respecté.",
+      "Détachement des notes.",
+      "S'exprime en regardant l'auditoire.",
+      "L'expression est de qualité : le langage est distinct, fluide et non familier.",
+      "L'exposé est clair et les idées s'enchainent logiquement.",
+      "Le candidat utilise l'espace pour sa présentation."
+    ],
+    "c01_argumentation": [
+      "L'échange est courtois.",
+      "Le candidat écoute les questions du jury, les reformule s'il ne les comprend pas.",
+      "Les réponses apportées sont appropriées et témoignent d'une capacité à mobiliser ses connaissances à bon escient et à les exposer clairement.",
+      "Des arguments sont utilisés et les erreurs sont corrigées."
+    ],
+    "c03_suivi": [
+      "Les taches de l'ensemble de l'équipe sont présentées via par exemple un diagramme de Gantt.",
+      "L'avancement de chaque tâche est renseigné.",
+      "L'avancement est réel et témoigne de son implication dans le projet."
+    ],
+    "c03_ressources": [
+      "L'architecture des composants logiciels et matériels du projet sont présentés, un diagramme SYSML de bd/ibd ou UML déploiement est utilisé pour cela.",
+      "Les moyens disponibles pour réaliser le projet sont présentés.",
+      "Le périmètre de chaque candidat est identifié.",
+      "La présentation du périmètre fonctionnel de chacun des candidats est faite par un diagramme de cas d'utilisation."
+    ],
+    "c03_communication": [
+      "Un espace collaboratif (partage et modification de documents, suivi de projet, etc.) est présenté.",
+      "La mise en œuvre de l'espace collaboratif est démontrée.",
+      "Le planning effectif est comparé au planning prévisionnel pour permettre un constat.",
+      "L'écart entre le temps prévisionnel et le temps réalisé est justifié."
+    ],
+    "c03_livrables": [
+      "Les différents reportings et versionings sont listés et présentés.",
+      "Un espace collaboratif contient les différentes versions de livraison du projet.",
+      "La dernière livraison est intégrée et packagée.",
+      "Un cahier de recette est présenté pour démontrer les concordances entre les besoins et la réalisation."
+    ],
+    "c08_environnement": [
+      "Le choix de l'environnement de développement est justifié.",
+      "Les librairies utilisées sont justifiées.",
+      "Les contraintes du client sont identifiées (cybersécurité, matériels, capteurs...).",
+      "Un diagramme présente l'architecture des données (Base de données, XML, JSON...)."
+    ],
+    "c08_versioning": [
+      "Un outil de versionnement est en place.",
+      "Le fonctionnement de l'outil de versionnement est démontré.",
+      "Chaque composant est versionné.",
+      "Chaque composant est documenté."
+    ],
+    "c08_developpement": [
+      "Les tests unitaires sont réalisés et tracés dans un cahier.",
+      "Le test unitaire permet de valider les spécifications.",
+      "Les interfaces entre les composants sont documentées par un diagramme de classes ou équivalent.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c08_integration": [
+      "Les composants du projet sont intégrés.",
+      "Une recette permet de valider les spécifications.",
+      "Pour chaque cas d'utilisation : Le cas nominal et les scénarios alternatifs sont conformes.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c10_identification": [
+      "L'architecture matérielle du projet est présentée.",
+      "Un diagramme de réseau ou équivalent est utilisé pour la présentation.",
+      "L'architecture des composants logiciels du projet est présentée, un diagramme UML de déploiement ou équivalent est utilisé.",
+      "Le choix des matériels (actionneurs/capteurs) est justifié."
+    ],
+    "c10_fonctionnement": [
+      "Le fonctionnement des matériels (actionneurs/capteurs) est explicité.",
+      "La mise en œuvre des capteurs est démontrée.",
+      "La communication et le format des données échangées entre les matériels sont analysés et documentés.",
+      "Les outils d'analyse réseau sont maîtrisés (oscillogramme, sniffeur, ping, traceroute, telnet...)."
+    ],
+    "c10_mise_a_jour": [
+      "Les versions des matériels et logiciels sont listées.",
+      "Les logiciels, pilotes sont à jours.",
+      "La configuration des éléments matériels et logiciel sont à même de permettre une bonne résistance aux attaques.",
+      "Les enjeux de la cybersécurité (faille de sécurité, signature, certificats...) des mises à jour sont pris en compte."
+    ],
+    "c10_optimisation": [
+      "Les outils de diagnostic sont connus.",
+      "L'outil adéquat est utilisé pour le test.",
+      "Le résultat de l'outil de test est correctement interprété.",
+      "La mise au point ou la résolution d'incident est correcte."
+    ]
+  },
+  "soutenance": {
+    "c01_rapport": [
+      "La page de titre contient les informations utiles (nom du candidat, nom de l'entreprise, année, nom du lycée, BTS et option) ainsi qu'une illustration adaptée.",
+      "Les entêtes et pieds de pages contiennent au minimum le numéro de la page et le nom du candidat.",
+      "Le sommaire automatique est présenté sur une seule page.",
+      "Les chapitres s'enchaînent de façon logique, chaque chapitre est introduit par une phrase et conclu par une phrase.",
+      "Chaque illustration est expliquée ou présentée avec une légende."
+    ],
+    "c01_presentation": [
+      "Le support est un travail personnel et ne comporte pas de faute d'orthographe.",
+      "La typographie et les illustrations sont soignées afin de rendre le support lisible.",
+      "La police est adaptée.",
+      "Le plan est proposé et cohérent.",
+      "L'introduction et la conclusion sont présentes.",
+      "Les informations choisies sont synthétiques et elles sont support du discours."
+    ],
+    "c01_oral": [
+      "Le temps de parole est respecté.",
+      "Détachement des notes.",
+      "S'exprime en regardant l'auditoire.",
+      "L'expression est de qualité : le langage est distinct, fluide et non familier.",
+      "L'exposé est clair et les idées s'enchainent logiquement.",
+      "Le candidat utilise l'espace pour sa présentation."
+    ],
+    "c01_argumentation": [
+      "L'échange est courtois.",
+      "Le candidat écoute les questions du jury, les reformule s'il ne les comprend pas.",
+      "Les réponses apportées sont appropriées et témoignent d'une capacité à mobiliser ses connaissances à bon escient et à les exposer clairement.",
+      "Des arguments sont utilisés et les erreurs sont corrigées."
+    ],
+    "c03_suivi": [
+      "Les taches de l'ensemble de l'équipe sont présentées via par exemple un diagramme de Gantt.",
+      "L'avancement de chaque tâche est renseigné.",
+      "L'avancement est réel et témoigne de son implication dans le projet."
+    ],
+    "c03_ressources": [
+      "L'architecture des composants logiciels et matériels du projet sont présentés, un diagramme SYSML de bd/ibd ou UML déploiement est utilisé pour cela.",
+      "Les moyens disponibles pour réaliser le projet sont présentés.",
+      "Le périmètre de chaque candidat est identifié.",
+      "La présentation du périmètre fonctionnel de chacun des candidats est faite par un diagramme de cas d'utilisation."
+    ],
+    "c03_communication": [
+      "Un espace collaboratif (partage et modification de documents, suivi de projet, etc.) est présenté.",
+      "La mise en œuvre de l'espace collaboratif est démontrée.",
+      "Le planning effectif est comparé au planning prévisionnel pour permettre un constat.",
+      "L'écart entre le temps prévisionnel et le temps réalisé est justifié."
+    ],
+    "c03_livrables": [
+      "Les différents reportings et versionings sont listés et présentés.",
+      "Un espace collaboratif contient les différentes versions de livraison du projet.",
+      "La dernière livraison est intégrée et packagée.",
+      "Un cahier de recette est présenté pour démontrer les concordances entre les besoins et la réalisation."
+    ],
+    "c08_environnement": [
+      "Le choix de l'environnement de développement est justifié.",
+      "Les librairies utilisées sont justifiées.",
+      "Les contraintes du client sont identifiées (cybersécurité, matériels, capteurs...).",
+      "Un diagramme présente l'architecture des données (Base de données, XML, JSON...)."
+    ],
+    "c08_versioning": [
+      "Un outil de versionnement est en place.",
+      "Le fonctionnement de l'outil de versionnement est démontré.",
+      "Chaque composant est versionné.",
+      "Chaque composant est documenté."
+    ],
+    "c08_developpement": [
+      "Les tests unitaires sont réalisés et tracés dans un cahier.",
+      "Le test unitaire permet de valider les spécifications.",
+      "Les interfaces entre les composants sont documentées par un diagramme de classes ou équivalent.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c08_integration": [
+      "Les composants du projet sont intégrés.",
+      "Une recette permet de valider les spécifications.",
+      "Pour chaque cas d'utilisation : Le cas nominal et les scénarios alternatifs sont conformes.",
+      "La politique de protection des données est présentée et justifiée."
+    ],
+    "c10_identification": [
+      "L'architecture matérielle du projet est présentée.",
+      "Un diagramme de réseau ou équivalent est utilisé pour la présentation.",
+      "L'architecture des composants logiciels du projet est présentée, un diagramme UML de déploiement ou équivalent est utilisé.",
+      "Le choix des matériels (actionneurs/capteurs) est justifié."
+    ],
+    "c10_verification": [
+      "Le fonctionnement des matériels (actionneurs/capteurs) est explicité.",
+      "La mise en œuvre des capteurs est démontrée.",
+      "La communication et le format des données échangées entre les matériels sont analysés et documentés.",
+      "Les outils d'analyse réseau sont maîtrisés (oscillogramme, sniffeur, ping, traceroute, telnet...)."
+    ],
+    "c10_mise_a_jour": [
+      "Les versions des matériels et logiciels sont listées.",
+      "Les logiciels, pilotes sont à jours.",
+      "La configuration des éléments matériels et logiciel sont à même de permettre une bonne résistance aux attaques.",
+      "Les enjeux de la cybersécurité (faille de sécurité, signature, certificats...) des mises à jour sont pris en compte."
+    ],
+    "c10_resolution": [
+      "Les outils de diagnostic sont connus.",
+      "L'outil adéquat est utilisé pour le test.",
+      "Le résultat de l'outil de test est correctement interprété.",
+      "La mise au point ou la résolution d'incident est correcte."
+    ]
+  }
+}

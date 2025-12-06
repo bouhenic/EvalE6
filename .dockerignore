@@ -1,0 +1,53 @@
+# Fichiers et dossiers à ignorer lors de la construction de l'image Docker
+
+# Dépendances
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Fichiers de développement
+.git/
+.gitignore
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+README.md
+CLAUDE.md
+*.md
+
+# Fichiers Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Certificats (ils seront générés dans le conteneur)
+certs/
+
+# Logs
+logs/
+*.log
+
+# Tests
+test/
+tests/
+*.test.js
+*.spec.js
+
+# Fichiers temporaires
+tmp/
+temp/
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db

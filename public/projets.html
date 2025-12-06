@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestion des Projets - Évaluation BTS CIEL</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>📁 Gestion des Projets</h1>
+      <p>Gérer les projets étudiants</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <a href="/" class="btn btn-back">← Retour à la liste</a>
+
+    <div id="message-container"></div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="margin: 0;">Liste des Projets</h2>
+        <button id="btn-add-projet" class="btn btn-primary">+ Ajouter un projet</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Nom du Projet</th>
+            <th>Description</th>
+            <th>Cahier des charges</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="projets-tbody">
+          <tr>
+            <td colspan="5" class="text-center">Chargement...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal pour ajouter un projet -->
+  <div id="modal-add-projet" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Ajouter un nouveau projet</h3>
+        <button class="btn-close" id="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-add-projet">
+          <div class="form-group">
+            <label for="new-nom-projet">Nom du projet *</label>
+            <input type="text" id="new-nom-projet" required placeholder="Ex: Système de gestion de stock">
+          </div>
+          <div class="form-group">
+            <label for="new-description">Description</label>
+            <textarea id="new-description" placeholder="Description du projet (optionnelle)" rows="4"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="btn-cancel-add">Annuler</button>
+        <button class="btn btn-primary" id="btn-confirm-add">Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/utils.js?v=24"></script>
+  <script src="/js/csrf.js?v=24"></script>
+  <script src="/js/auth-check.js"></script>
+  <script src="/js/projets.js"></script>
+</body>
+</html>

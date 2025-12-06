@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche Récapitulative E6</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container" style="text-align: center;">
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Fiche Récapitulative E6</h1>
+      <p id="eleve-info" style="font-size: 1.25rem;">Chargement...</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <a href="/" class="btn btn-back">← Retour à la liste</a>
+
+    <div id="message-container"></div>
+
+    <div class="card">
+      <h2>Récapitulatif des évaluations</h2>
+
+      <table class="table-recap">
+        <thead>
+          <tr>
+            <th>Évaluation</th>
+            <th>Coefficient</th>
+            <th>Note finale proposée</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Stage en entreprise</td>
+            <td class="text-center">1</td>
+            <td class="text-center" id="note-stage">--</td>
+            <td id="statut-stage"><span class="badge warning">Non finalisé</span></td>
+          </tr>
+          <tr>
+            <td>Revue 3 de projet</td>
+            <td class="text-center">3</td>
+            <td class="text-center" id="note-revue3">--</td>
+            <td id="statut-revue3"><span class="badge warning">Non finalisé</span></td>
+          </tr>
+          <tr>
+            <td>Soutenance</td>
+            <td class="text-center">3</td>
+            <td class="text-center" id="note-soutenance">--</td>
+            <td id="statut-soutenance"><span class="badge warning">Non finalisé</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="recap-notes">
+        <div class="note-calculee-box">
+          <label>Note calculée (sur 20):</label>
+          <input type="text" id="note-calculee-recap" readonly value="--">
+          <small>Formule: (Stage×1 + Revue3×3 + Soutenance×3) / 7</small>
+        </div>
+
+        <div class="note-proposee-box">
+          <label>Note proposée au jury de délibération:</label>
+          <input type="number" id="note-proposee-jury" min="0" max="20" step="0.5" placeholder="Note sur 20">
+        </div>
+      </div>
+
+      <div class="commentaires-section">
+        <label for="commentaires-jury">Commentaires destinés à éclairer le jury:</label>
+        <textarea id="commentaires-jury" rows="6" placeholder="Saisissez vos commentaires..."></textarea>
+      </div>
+
+      <div class="jury-section" style="margin-top: 2rem;">
+        <h3 style="color: #667eea; margin-bottom: 1rem;">Membres du jury de soutenance</h3>
+        <div id="jury-members-display">
+          <p style="color: #718096; font-style: italic;">Chargement des membres du jury...</p>
+        </div>
+      </div>
+
+      <div class="actions-bar">
+        <div>
+          <button id="btn-save-recap" class="btn btn-secondary">💾 Sauvegarder</button>
+          <button id="btn-generer-excel-optimise" class="btn btn-success">🚀 Générer Excel Complet</button>
+        </div>
+        <button id="btn-download" class="btn btn-download" disabled>📥 Télécharger Excel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/utils.js?v=24"></script>
+  <script src="/js/csrf.js?v=24"></script>
+  <script src="/js/auth-check.js"></script>
+  <script src="/js/recapitulatif.js"></script>
+</body>
+</html>
