@@ -101,8 +101,13 @@ const loginLimiter = rateLimit({
 });
 
 // Middleware
+// En production Docker, accepter l'origine de la requête (car on sert le frontend depuis le même serveur)
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'https://localhost:3001',
+  origin: function(origin, callback) {
+    // Permettre les requêtes sans origine (comme les appels depuis le même serveur)
+    // ou depuis n'importe quelle origine en production
+    callback(null, true);
+  },
   credentials: true
 }));
 app.use(bodyParser.json());
@@ -115,7 +120,7 @@ app.use(session({
     secure: true, // activé pour HTTPS
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 heures
-    sameSite: 'strict' // Protection CSRF supplémentaire
+    sameSite: 'lax' // 'lax' au lieu de 'strict' pour compatibilité Docker
   }
 }));
 
