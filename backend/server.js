@@ -275,16 +275,42 @@ function requireAdmin(req, res, next) {
 }
 
 // Middleware de vérification d'accès aux évaluations selon le rôle
-function checkEvaluationAccess(req, res, next) {
+async function checkEvaluationAccess(req, res, next) {
   if (!req.session || !req.session.user) {
     return res.status(401).json({ error: 'Non authentifié' });
   }
 
   const userRole = req.session.user.role;
   const semestre = req.body.semestre || req.params.semestre;
+  const eleveId = parseInt(req.params.id);
 
-  // Admin a accès à tout
+  // Vérifier le verrouillage temporel pour l'admin
   if (userRole === 'admin') {
+    try {
+      const eleves = await loadEleves();
+      const eleve = eleves.find(e => e.id === eleveId);
+
+      if (eleve && eleve.jury) {
+        const allLockData = await loadEvaluationLock();
+        const juryLock = allLockData[eleve.jury];
+
+        if (juryLock && juryLock.isLocked && !juryLock.unlockedEarly) {
+          const now = new Date();
+          const startDate = new Date(juryLock.startDate);
+          const endDate = new Date(juryLock.endDate);
+
+          if (now >= startDate && now <= endDate) {
+            return res.status(403).json({
+              error: `Accès temporairement verrouillé par le ${eleve.jury} jusqu'au ${endDate.toLocaleDateString('fr-FR')} à ${endDate.toLocaleTimeString('fr-FR')}`
+            });
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification du verrouillage:', error);
+      // En cas d'erreur, on continue pour ne pas bloquer l'admin
+    }
+
     return next();
   }
 
