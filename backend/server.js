@@ -1859,7 +1859,12 @@ app.get('/api/evaluation-lock', requireAuth, async (req, res) => {
   try {
     const lockData = await loadEvaluationLock();
     const userRole = req.session.user.role;
-    const juryId = req.session.user.juryId;
+
+    // Fallback pour Docker: utiliser username si juryId n'existe pas
+    let juryId = req.session.user.juryId;
+    if (!juryId && req.session.user.username) {
+      juryId = req.session.user.username;
+    }
 
     // Pour le jury: retourner seulement son verrouillage
     if (userRole === 'jury' && juryId) {
