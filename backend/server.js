@@ -614,8 +614,12 @@ app.get('/api/eleves', async (req, res) => {
       const user = req.session.user;
 
       // Si c'est un jury spécifique (jury1 ou jury2), ne montrer que ses élèves
-      if (user.role === 'jury' && user.juryId) {
-        eleves = eleves.filter(eleve => eleve.jury === user.juryId);
+      if (user.role === 'jury') {
+        // Fallback pour Docker: utiliser username si juryId n'existe pas
+        const juryId = user.juryId || user.username;
+        if (juryId) {
+          eleves = eleves.filter(eleve => eleve.jury === juryId);
+        }
       }
     }
 
