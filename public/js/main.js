@@ -1552,6 +1552,41 @@ async function printRecapitulatif() {
       return;
     }
 
+    // Vérifier si un jury est en train d'évaluer (verrouillage actif)
+    if (currentLockState && currentLockState.lockData) {
+      const now = new Date();
+      let lockActive = false;
+
+      // Vérifier jury1
+      if (currentLockState.lockData.jury1) {
+        const jury1Lock = currentLockState.lockData.jury1;
+        if (jury1Lock.isLocked && !jury1Lock.unlockedEarly) {
+          const start = new Date(jury1Lock.startDate);
+          const end = new Date(jury1Lock.endDate);
+          if (now >= start && now <= end) {
+            lockActive = true;
+          }
+        }
+      }
+
+      // Vérifier jury2
+      if (currentLockState.lockData.jury2) {
+        const jury2Lock = currentLockState.lockData.jury2;
+        if (jury2Lock.isLocked && !jury2Lock.unlockedEarly) {
+          const start = new Date(jury2Lock.startDate);
+          const end = new Date(jury2Lock.endDate);
+          if (now >= start && now <= end) {
+            lockActive = true;
+          }
+        }
+      }
+
+      if (lockActive) {
+        showMessage('Impossible d\'imprimer le tableau récapitulatif : un jury est actuellement en train d\'évaluer.', 'error');
+        return;
+      }
+    }
+
     // Créer une référence locale à escapeHtml pour l'utiliser dans les templates
     const escapeHtmlFunc = window.escapeHtml || escapeHtml;
 
