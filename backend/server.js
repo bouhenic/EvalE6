@@ -1891,7 +1891,12 @@ app.post('/api/evaluation-lock/set', async (req, res) => {
     }
 
     const { startDate, endDate } = req.body;
-    const juryId = req.session.user.juryId;
+    // Déduire le juryId depuis la session ou depuis le username
+    let juryId = req.session.user.juryId;
+    if (!juryId && req.session.user.username) {
+      // Si pas de juryId dans la session, utiliser le username (jury1 ou jury2)
+      juryId = req.session.user.username;
+    }
 
     if (!juryId) {
       return res.status(400).json({ error: 'Jury ID manquant' });
@@ -1933,7 +1938,12 @@ app.post('/api/evaluation-lock/unlock', async (req, res) => {
       return res.status(403).json({ error: 'Accès refusé. Seuls les jurys peuvent débloquer.' });
     }
 
-    const juryId = req.session.user.juryId;
+    // Déduire le juryId depuis la session ou depuis le username
+    let juryId = req.session.user.juryId;
+    if (!juryId && req.session.user.username) {
+      juryId = req.session.user.username;
+    }
+
     if (!juryId) {
       return res.status(400).json({ error: 'Jury ID manquant' });
     }
