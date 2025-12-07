@@ -1138,6 +1138,7 @@ function adaptUIForRole(userRole) {
       document.getElementById('btn-manage-users')?.style.setProperty('display', 'none');
       document.getElementById('btn-manage-jury')?.style.setProperty('display', 'none');
       document.getElementById('btn-manage-projets')?.style.setProperty('display', 'none');
+      document.getElementById('btn-print-recap')?.style.setProperty('display', 'none');
       document.getElementById('btn-manage-config')?.style.setProperty('display', 'none');
 
       // Masquer le séparateur avant la configuration
