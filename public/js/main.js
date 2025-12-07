@@ -1209,7 +1209,7 @@ function displayLockStatus(lockData) {
   if (juryLock.unlockedEarly) {
     statusText = '🔓 Débloqué anticipé';
     statusColor = '#48bb78';
-  } else if (lockData.isLocked) {
+  } else if (now >= start && now <= end) {
     statusText = '🔒 Verrouillage actif';
     statusColor = '#e53e3e';
   } else if (now < start) {
