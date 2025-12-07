@@ -69,7 +69,15 @@ function releaseExcelLock(filename) {
 
 // Configuration de Helmet pour la sécurité des headers HTTP
 app.use(helmet({
-  contentSecurityPolicy: false, // Désactivé pour compatibilité avec onclick inline
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"]
+    }
+  },
   hsts: {
     maxAge: 31536000,
     includeSubDomains: true,
@@ -94,10 +102,7 @@ const loginLimiter = rateLimit({
 
 // Middleware
 app.use(cors({
-  origin: function(origin, callback) {
-    // Accepter toutes les origines pour le déploiement Docker
-    callback(null, true);
-  },
+  origin: process.env.CORS_ORIGIN || 'https://localhost:3001',
   credentials: true
 }));
 app.use(bodyParser.json());
@@ -110,7 +115,7 @@ app.use(session({
     secure: true, // activé pour HTTPS
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 heures
-    sameSite: 'lax' // Changé de 'strict' à 'lax' pour compatibilité Docker
+    sameSite: 'strict' // Protection CSRF supplémentaire
   }
 }));
 
@@ -1889,7 +1894,7 @@ app.post('/api/evaluation-lock/set', async (req, res) => {
 
     const { startDate, endDate } = req.body;
 
-    // Déduire le juryId depuis la session ou depuis le username
+    // Fallback pour Docker: utiliser username si juryId n'existe pas
     let juryId = req.session.user.juryId;
     if (!juryId && req.session.user.username) {
       juryId = req.session.user.username;
@@ -1935,7 +1940,7 @@ app.post('/api/evaluation-lock/unlock', async (req, res) => {
       return res.status(403).json({ error: 'Accès refusé. Seuls les jurys peuvent débloquer.' });
     }
 
-    // Déduire le juryId depuis la session ou depuis le username
+    // Fallback pour Docker: utiliser username si juryId n'existe pas
     let juryId = req.session.user.juryId;
     if (!juryId && req.session.user.username) {
       juryId = req.session.user.username;
