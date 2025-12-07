@@ -1,17 +1,17 @@
 [
   {
     "username": "admin",
-    "password": "$2a$10$xQJ3K8Z.lQ9X7YvH0kZQPuN8VzKLx8yEv0r3jGxN.lG8fZ2QJ8yHW",
+    "password": "$2b$10$GMdqHMa.4cxksG9uQEBEguP/4zFDdKYmVOIfecwq4p.r408y25WhO",
     "role": "admin"
   },
   {
     "username": "jury1",
-    "password": "$2a$10$xQJ3K8Z.lQ9X7YvH0kZQPuN8VzKLx8yEv0r3jGxN.lG8fZ2QJ8yHW",
+    "password": "$2b$10$7vYnGJ7JTzTN7tereEEXWemegfSPZiRUxyEt5DijD9iPIe1eaDZx6",
     "role": "jury"
   },
   {
     "username": "jury2",
-    "password": "$2a$10$xQJ3K8Z.lQ9X7YvH0kZQPuN8VzKLx8yEv0r3jGxN.lG8fZ2QJ8yHW",
+    "password": "$2b$10$sMP2CHWjI.bwRuZ7lrRJDeEB/eyPeoyLQJ970J46tdFgoIeCMvUOi",
     "role": "jury"
   }
 ]
