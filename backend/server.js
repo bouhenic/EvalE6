@@ -68,7 +68,6 @@ function releaseExcelLock(filename) {
 }
 
 // Configuration de Helmet pour la sécurité des headers HTTP
-// CSP désactivée pour permettre les inline handlers et faciliter le déploiement
 app.use(helmet({
   contentSecurityPolicy: false, // Désactivé pour compatibilité avec onclick inline
   hsts: {
@@ -94,11 +93,9 @@ const loginLimiter = rateLimit({
 });
 
 // Middleware
-// En production Docker, accepter l'origine de la requête (car on sert le frontend depuis le même serveur)
 app.use(cors({
   origin: function(origin, callback) {
-    // Permettre les requêtes sans origine (comme les appels depuis le même serveur)
-    // ou depuis n'importe quelle origine en production
+    // Accepter toutes les origines pour le déploiement Docker
     callback(null, true);
   },
   credentials: true
@@ -113,7 +110,7 @@ app.use(session({
     secure: true, // activé pour HTTPS
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 heures
-    sameSite: 'lax' // 'lax' au lieu de 'strict' pour compatibilité Docker
+    sameSite: 'lax' // Changé de 'strict' à 'lax' pour compatibilité Docker
   }
 }));
 
@@ -275,42 +272,16 @@ function requireAdmin(req, res, next) {
 }
 
 // Middleware de vérification d'accès aux évaluations selon le rôle
-async function checkEvaluationAccess(req, res, next) {
+function checkEvaluationAccess(req, res, next) {
   if (!req.session || !req.session.user) {
     return res.status(401).json({ error: 'Non authentifié' });
   }
 
   const userRole = req.session.user.role;
   const semestre = req.body.semestre || req.params.semestre;
-  const eleveId = parseInt(req.params.id);
 
-  // Vérifier le verrouillage temporel pour l'admin
+  // Admin a accès à tout
   if (userRole === 'admin') {
-    try {
-      const eleves = await loadEleves();
-      const eleve = eleves.find(e => e.id === eleveId);
-
-      if (eleve && eleve.jury) {
-        const allLockData = await loadEvaluationLock();
-        const juryLock = allLockData[eleve.jury];
-
-        if (juryLock && juryLock.isLocked && !juryLock.unlockedEarly) {
-          const now = new Date();
-          const startDate = new Date(juryLock.startDate);
-          const endDate = new Date(juryLock.endDate);
-
-          if (now >= startDate && now <= endDate) {
-            return res.status(403).json({
-              error: `Accès temporairement verrouillé par le ${eleve.jury} jusqu'au ${endDate.toLocaleDateString('fr-FR')} à ${endDate.toLocaleTimeString('fr-FR')}`
-            });
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Erreur lors de la vérification du verrouillage:', error);
-      // En cas d'erreur, on continue pour ne pas bloquer l'admin
-    }
-
     return next();
   }
 
@@ -1917,10 +1888,10 @@ app.post('/api/evaluation-lock/set', async (req, res) => {
     }
 
     const { startDate, endDate } = req.body;
+
     // Déduire le juryId depuis la session ou depuis le username
     let juryId = req.session.user.juryId;
     if (!juryId && req.session.user.username) {
-      // Si pas de juryId dans la session, utiliser le username (jury1 ou jury2)
       juryId = req.session.user.username;
     }
 
