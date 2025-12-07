@@ -7,11 +7,13 @@
   {
     "username": "jury1",
     "password": "$2b$10$7vYnGJ7JTzTN7tereEEXWemegfSPZiRUxyEt5DijD9iPIe1eaDZx6",
-    "role": "jury"
+    "role": "jury",
+    "juryId": "jury1"
   },
   {
     "username": "jury2",
     "password": "$2b$10$sMP2CHWjI.bwRuZ7lrRJDeEB/eyPeoyLQJ970J46tdFgoIeCMvUOi",
-    "role": "jury"
+    "role": "jury",
+    "juryId": "jury2"
   }
 ]
