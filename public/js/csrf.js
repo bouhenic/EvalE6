@@ -8,7 +8,7 @@ window.getCsrfToken = async function() {
   }
 
   try {
-    const response = await fetch('https://localhost:3001/api/csrf-token', {
+    const response = await fetch(`${window.API_BASE || window.location.origin + '/api'}/csrf-token`, {
       credentials: 'include'
     });
 

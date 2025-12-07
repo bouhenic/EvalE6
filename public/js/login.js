@@ -22,6 +22,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const response = await fetch(`${API_BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // Important pour les cookies de session
       body: JSON.stringify({ username, password })
     });
 
