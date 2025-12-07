@@ -133,7 +133,25 @@ docker-compose exec e6-app sh
 docker-compose ps
 ```
 
-## Configuration HTTPS
+## Configuration
+
+### Variable d'environnement SESSION_SECRET
+
+L'application utilise une clé secrète pour sécuriser les sessions utilisateur. Par défaut, une clé est définie dans `docker-compose.yml`.
+
+**IMPORTANT pour la production** : Changez la valeur de `SESSION_SECRET` dans `docker-compose.yml` avant de déployer en production :
+
+```yaml
+environment:
+  - SESSION_SECRET=votre_clé_secrète_sécurisée_minimum_32_caractères
+```
+
+Pour générer une clé sécurisée :
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+### Configuration HTTPS
 
 L'application génère automatiquement des certificats SSL auto-signés au démarrage du conteneur.
 
