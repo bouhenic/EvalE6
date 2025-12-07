@@ -68,16 +68,9 @@ function releaseExcelLock(filename) {
 }
 
 // Configuration de Helmet pour la sécurité des headers HTTP
+// CSP désactivée pour permettre les inline handlers et faciliter le déploiement
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"]
-    }
-  },
+  contentSecurityPolicy: false, // Désactivé pour compatibilité avec onclick inline
   hsts: {
     maxAge: 31536000,
     includeSubDomains: true,
