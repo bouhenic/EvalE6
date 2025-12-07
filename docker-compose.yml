@@ -15,6 +15,7 @@ services:
       - NODE_ENV=production
       - PORT=3001
       - SESSION_SECRET=changeme_production_secret_key_minimum_32_characters_required
+      - TZ=Europe/Paris
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "node", "-e", "require('https').get('https://localhost:3001', (res) => process.exit(res.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
