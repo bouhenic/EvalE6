@@ -739,6 +739,57 @@ app.post('/api/eleves', async (req, res) => {
   }
 });
 
+// PATCH /api/eleves/:id - Modifier un élève existant
+app.patch('/api/eleves/:id', requireAdmin, async (req, res) => {
+  try {
+    const eleveId = parseInt(req.params.id);
+    const { nom, prenom, promotion, classe, numero, jury } = req.body;
+
+    // Validation stricte des types
+    try {
+      validateString(nom, 'Nom', true, 100);
+      validateString(prenom, 'Prénom', true, 100);
+      validateString(numero, 'Numéro', true, 50);
+
+      const promoValue = promotion || classe;
+      validateString(promoValue, 'Promotion/Classe', true, 100);
+
+      if (jury !== null && jury !== undefined && jury !== '') {
+        validateEnum(jury, 'Jury', ['jury1', 'jury2'], false);
+      }
+    } catch (validationError) {
+      return res.status(400).json({ error: validationError.message });
+    }
+
+    const promoValue = promotion || classe;
+
+    const eleves = await loadEleves();
+    const eleveIndex = eleves.findIndex(e => e.id === eleveId);
+
+    if (eleveIndex === -1) {
+      return res.status(404).json({ error: 'Élève non trouvé' });
+    }
+
+    // Mettre à jour les informations de l'élève
+    eleves[eleveIndex] = {
+      ...eleves[eleveIndex],
+      nom: nom.trim(),
+      prenom: prenom.trim(),
+      promotion: promoValue.trim(),
+      numero: numero.trim(),
+      jury: jury || null
+    };
+
+    // Sauvegarder
+    await fs.writeFile(ELEVES_FILE, JSON.stringify(eleves, null, 2));
+
+    res.json(eleves[eleveIndex]);
+  } catch (error) {
+    console.error('Erreur lors de la modification de l\'élève:', error);
+    res.status(500).json({ error: 'Erreur lors de la modification de l\'élève' });
+  }
+});
+
 // PATCH /api/eleves/:id/jury - Mettre à jour le jury d'un élève
 app.patch('/api/eleves/:id/jury', requireAdmin, async (req, res) => {
   try {

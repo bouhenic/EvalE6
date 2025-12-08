@@ -177,6 +177,9 @@ function displayEleves(eleves) {
               ⬇️ Télécharger Excel
             </button>
             <div class="action-divider"></div>
+            <button class="action-item btn-modifier" data-id="${eleve.id}">
+              ✏️ Modifier
+            </button>
             <button class="action-item action-danger btn-supprimer" data-id="${eleve.id}" data-nom="${eleve.nom}" data-prenom="${eleve.prenom}">
               🗑️ Supprimer
             </button>
@@ -440,6 +443,15 @@ function attachEventListeners() {
       const nom = button.dataset.nom;
       const prenom = button.dataset.prenom;
       telechargerExcel(nom, prenom);
+    });
+  });
+
+  // Boutons "Modifier"
+  document.querySelectorAll('.btn-modifier').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const button = e.target.closest('.btn-modifier');
+      const eleveId = button.dataset.id;
+      openEditModal(eleveId);
     });
   });
 
@@ -794,7 +806,7 @@ async function deleteCahierChargesFromModal(projetId, projetNom) {
   }
 }
 
-// Gestion du modal
+// Gestion du modal (ajout)
 function openModal() {
   document.getElementById('modal-add-eleve').classList.remove('hidden');
 }
@@ -802,6 +814,35 @@ function openModal() {
 function closeModal() {
   document.getElementById('modal-add-eleve').classList.add('hidden');
   document.getElementById('form-add-eleve').reset();
+}
+
+// Gestion du modal (modification)
+function openEditModal(eleveId) {
+  // Convertir eleveId en nombre pour la comparaison
+  const id = typeof eleveId === 'string' ? parseInt(eleveId) : eleveId;
+  const eleve = allEleves.find(e => e.id === id);
+
+  if (!eleve) {
+    console.error('Élève introuvable avec ID:', eleveId, 'Type:', typeof eleveId);
+    console.log('IDs disponibles:', allEleves.map(e => ({ id: e.id, type: typeof e.id })));
+    showMessage('Élève introuvable', 'error');
+    return;
+  }
+
+  // Remplir le formulaire avec les données actuelles
+  document.getElementById('edit-eleve-id').value = eleve.id;
+  document.getElementById('edit-nom').value = eleve.nom || '';
+  document.getElementById('edit-prenom').value = eleve.prenom || '';
+  document.getElementById('edit-promotion').value = eleve.promotion || '';
+  document.getElementById('edit-numero').value = eleve.numero || '';
+  document.getElementById('edit-jury').value = eleve.jury || '';
+
+  document.getElementById('modal-edit-eleve').classList.remove('hidden');
+}
+
+function closeEditModal() {
+  document.getElementById('modal-edit-eleve').classList.add('hidden');
+  document.getElementById('form-edit-eleve').reset();
 }
 
 // Ajouter un nouvel élève
@@ -842,6 +883,51 @@ async function addEleve() {
   } catch (error) {
     console.error('Erreur:', error);
     showMessage(error.message || 'Erreur lors de l\'ajout de l\'élève', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+  }
+}
+
+// Modifier un élève existant
+async function editEleve() {
+  const eleveId = document.getElementById('edit-eleve-id').value;
+  const nom = document.getElementById('edit-nom').value.trim();
+  const prenom = document.getElementById('edit-prenom').value.trim();
+  const promotion = document.getElementById('edit-promotion').value.trim();
+  const numero = document.getElementById('edit-numero').value.trim();
+  const jury = document.getElementById('edit-jury').value;
+
+  if (!nom || !prenom || !promotion || !numero) {
+    showMessage('Veuillez remplir tous les champs obligatoires', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit-edit-eleve');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading"></span> Modification...';
+
+  try {
+    const response = await fetchWithCsrf(`${API_BASE}/eleves/${eleveId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ nom, prenom, promotion, numero, jury })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Erreur lors de la modification');
+    }
+
+    const result = await response.json();
+    showMessage(`Élève ${prenom} ${nom} modifié avec succès`, 'success');
+    closeEditModal();
+    loadEleves(); // Recharger la liste
+  } catch (error) {
+    console.error('Erreur:', error);
+    showMessage(error.message || 'Erreur lors de la modification de l\'élève', 'error');
   } finally {
     btn.disabled = false;
     btn.innerHTML = originalText;
@@ -1432,7 +1518,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Événement du bouton "Changer mon mot de passe" (modal)
   document.getElementById('btn-change-password')?.addEventListener('click', openPasswordModal);
 
-  // Événements du modal élève
+  // Événements du modal élève (ajout)
   document.getElementById('btn-add-eleve')?.addEventListener('click', openModal);
   document.getElementById('btn-close-modal')?.addEventListener('click', closeModal);
   document.getElementById('btn-cancel-modal')?.addEventListener('click', closeModal);
@@ -1449,6 +1535,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('form-add-eleve')?.addEventListener('submit', (e) => {
     e.preventDefault();
     addEleve();
+  });
+
+  // Événements du modal élève (modification)
+  document.getElementById('btn-close-edit-modal')?.addEventListener('click', closeEditModal);
+  document.getElementById('btn-cancel-edit-modal')?.addEventListener('click', closeEditModal);
+  document.getElementById('btn-submit-edit-eleve')?.addEventListener('click', editEleve);
+
+  // Fermer le modal de modification en cliquant en dehors
+  document.getElementById('modal-edit-eleve')?.addEventListener('click', (e) => {
+    if (e.target.id === 'modal-edit-eleve') {
+      closeEditModal();
+    }
+  });
+
+  // Soumettre le formulaire de modification avec Enter
+  document.getElementById('form-edit-eleve')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    editEleve();
   });
 
   // Événements du modal jury
