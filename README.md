@@ -47,9 +47,9 @@ L'application est initialisée avec trois comptes par défaut :
 
 Les données sont stockées dans des volumes Docker persistants :
 
-- `e6-data` : Données des étudiants, utilisateurs, jurys et projets
-- `e6-export` : Fichiers Excel générés
-- `e6-rapports` : Cahiers des charges (PDF) des projets
+- `evale6_e6-data` : Données des étudiants, utilisateurs, jurys et projets
+- `evale6_e6-export` : Fichiers Excel générés
+- `evale6_e6-rapports` : Cahiers des charges (PDF) des projets
 
 ### Sauvegarde des données
 
@@ -60,13 +60,13 @@ Pour sauvegarder les données :
 mkdir -p ./backup
 
 # Sauvegarder le volume data
-docker run --rm -v e6-data:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-data-backup.tar.gz -C /data .
+docker run --rm -v evale6_e6-data:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-data-backup.tar.gz -C /data .
 
 # Sauvegarder le volume export
-docker run --rm -v e6-export:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-export-backup.tar.gz -C /data .
+docker run --rm -v evale6_e6-export:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-export-backup.tar.gz -C /data .
 
 # Sauvegarder le volume rapports
-docker run --rm -v e6-rapports:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-rapports-backup.tar.gz -C /data .
+docker run --rm -v evale6_e6-rapports:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-rapports-backup.tar.gz -C /data .
 ```
 
 ### Restauration des données
@@ -78,13 +78,13 @@ Pour restaurer une sauvegarde :
 docker-compose down
 
 # Restaurer le volume data
-docker run --rm -v e6-data:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-data-backup.tar.gz -C /data"
+docker run --rm -v evale6_e6-data:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-data-backup.tar.gz -C /data"
 
 # Restaurer le volume export
-docker run --rm -v e6-export:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-export-backup.tar.gz -C /data"
+docker run --rm -v evale6_e6-export:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-export-backup.tar.gz -C /data"
 
 # Restaurer le volume rapports
-docker run --rm -v e6-rapports:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-rapports-backup.tar.gz -C /data"
+docker run --rm -v evale6_e6-rapports:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-rapports-backup.tar.gz -C /data"
 
 # Redémarrer l'application
 docker-compose up -d
@@ -195,7 +195,7 @@ Pour repartir de zéro (supprime TOUTES les données) :
 docker-compose down
 
 # Supprimer les volumes
-docker volume rm e6-data e6-export e6-rapports
+docker volume rm evale6_e6-data evale6_e6-export evale6_e6-rapports
 
 # Reconstruire et redémarrer
 docker-compose up -d
