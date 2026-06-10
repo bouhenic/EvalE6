@@ -2,18 +2,21 @@
   {
     "username": "admin",
     "password": "$2b$10$GMdqHMa.4cxksG9uQEBEguP/4zFDdKYmVOIfecwq4p.r408y25WhO",
-    "role": "admin"
+    "role": "admin",
+    "mustChangePassword": true
   },
   {
     "username": "jury1",
     "password": "$2b$10$7vYnGJ7JTzTN7tereEEXWemegfSPZiRUxyEt5DijD9iPIe1eaDZx6",
     "role": "jury",
-    "juryId": "jury1"
+    "juryId": "jury1",
+    "mustChangePassword": true
   },
   {
     "username": "jury2",
     "password": "$2b$10$sMP2CHWjI.bwRuZ7lrRJDeEB/eyPeoyLQJ970J46tdFgoIeCMvUOi",
     "role": "jury",
-    "juryId": "jury2"
+    "juryId": "jury2",
+    "mustChangePassword": true
   }
 ]

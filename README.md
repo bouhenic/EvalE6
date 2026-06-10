@@ -33,13 +33,20 @@ docker-compose down
 
 L'application est initialisée avec trois comptes par défaut :
 
-| Utilisateur | Mot de passe | Rôle  |
-|-------------|--------------|-------|
-| `admin`     | `admin123`   | Admin |
-| `jury1`     | `jury1123`   | Jury  |
-| `jury2`     | `jury2123`   | Jury  |
+| Utilisateur | Rôle  |
+|-------------|-------|
+| `admin`     | Admin |
+| `jury1`     | Jury  |
+| `jury2`     | Jury  |
 
-**IMPORTANT** : Changez ces mots de passe après la première connexion !
+Les mots de passe initiaux **ne sont volontairement pas publiés** ici : ils doivent
+être transmis hors-dépôt (canal séparé). Les trois comptes sont créés avec le flag
+`mustChangePassword: true` — **à la première connexion, chaque utilisateur est obligé
+de définir son propre mot de passe**.
+
+> ⚠️ Avant toute mise en production : remplacez les mots de passe par défaut du fichier
+> `data/users.json` (hash bcrypt). Génération d'un hash :
+> `node -e "require('bcryptjs').hash('VotreMotDePasse', 10).then(h=>console.log(h))"`
 
 ## Gestion des données
 

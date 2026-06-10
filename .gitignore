@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Secrets & certificats
+.env
+.env.local
+certs/
+
+# Données sensibles (élèves, jurys, projets) — ne pas publier
+data/eleves.json
+data/jury-members.json
+data/projets.json
+
+# Fichiers générés / uploadés (données élèves)
+export/*.xlsx
+rapports/*.pdf
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporaires / backups
+tmp/
+temp/
+*.backup
+*.bak
+*_old.*
+*_backup.*

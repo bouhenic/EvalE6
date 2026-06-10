@@ -60,6 +60,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   window.currentUser = await checkAuth();
   if (window.currentUser) {
+    // Si l'utilisateur doit changer son mot de passe (ex: après réinitialisation
+    // par l'admin), l'y forcer avant d'accéder à toute autre page
+    const onChangePasswordPage =
+      window.location.pathname === '/change-password' ||
+      window.location.pathname === '/change-password.html';
+    if (window.currentUser.mustChangePassword && !onChangePasswordPage) {
+      window.location.href = '/change-password';
+      return;
+    }
+
     addLogoutButton(window.currentUser);
   }
 });

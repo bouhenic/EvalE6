@@ -427,16 +427,17 @@ app.post('/api/auth/login', loginLimiter, async (req, res) => {
       return res.status(401).json({ error: 'Identifiants invalides' });
     }
 
+    // Vérifier si l'utilisateur doit changer son mot de passe
+    const mustChangePassword = user.mustChangePassword || false;
+
     req.session.user = {
       username: user.username,
       role: user.role,
-      juryId: user.juryId || null
+      juryId: user.juryId || null,
+      mustChangePassword
     };
 
     await logSecurityEvent('LOGIN_SUCCESS', { username, role: user.role, ip: req.ip });
-
-    // Vérifier si l'utilisateur doit changer son mot de passe
-    const mustChangePassword = user.mustChangePassword || false;
 
     res.json({
       success: true,
@@ -505,6 +506,9 @@ app.post('/api/change-password', requireAuth, async (req, res) => {
       return res.status(500).json({ error: 'Erreur lors de la sauvegarde du nouveau mot de passe' });
     }
 
+    // Mettre à jour la session pour lever l'obligation de changement
+    req.session.user.mustChangePassword = false;
+
     await logSecurityEvent('PASSWORD_CHANGED', { username, ip: req.ip });
 
     res.json({ success: true, message: 'Mot de passe modifié avec succès' });
@@ -538,14 +542,23 @@ app.post('/api/reset-password', requireAdmin, async (req, res) => {
     // Hasher le nouveau mot de passe
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Mettre à jour le mot de passe
+    // Mettre à jour le mot de passe et forcer le changement à la prochaine connexion
+    // (l'admin ne définit qu'un mot de passe temporaire ; le jury choisit le sien)
     users[userIndex].password = hashedPassword;
+    users[userIndex].mustChangePassword = true;
 
     // Sauvegarder les utilisateurs
     const saved = await saveUsers(users);
     if (!saved) {
       return res.status(500).json({ error: 'Erreur lors de la sauvegarde du nouveau mot de passe' });
     }
+
+    // Journaliser la réinitialisation pour la traçabilité
+    await logSecurityEvent('PASSWORD_RESET', {
+      admin: req.session.user.username,
+      targetUser: username,
+      ip: req.ip
+    });
 
     res.json({ success: true, message: `Mot de passe réinitialisé pour ${username}` });
   } catch (error) {
@@ -605,22 +618,16 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Routes protégées API
 
 // GET /api/eleves - Récupérer la liste des élèves
-app.get('/api/eleves', async (req, res) => {
+app.get('/api/eleves', requireAuth, async (req, res) => {
   try {
     let eleves = await loadEleves();
 
     // Filtrer les élèves selon le jury connecté
-    if (req.session && req.session.user) {
-      const user = req.session.user;
+    const user = req.session.user;
 
-      // Si c'est un jury spécifique (jury1 ou jury2), ne montrer que ses élèves
-      if (user.role === 'jury') {
-        // Fallback pour Docker: utiliser username si juryId n'existe pas
-        const juryId = user.juryId || user.username;
-        if (juryId) {
-          eleves = eleves.filter(eleve => eleve.jury === juryId);
-        }
-      }
+    // Si c'est un jury spécifique (jury1 ou jury2), ne montrer que ses élèves
+    if (user.role === 'jury' && user.juryId) {
+      eleves = eleves.filter(eleve => eleve.jury === user.juryId);
     }
 
     res.json(eleves);
@@ -630,7 +637,7 @@ app.get('/api/eleves', async (req, res) => {
 });
 
 // GET /api/eleves/:id - Récupérer un élève spécifique
-app.get('/api/eleves/:id', async (req, res) => {
+app.get('/api/eleves/:id', requireAuth, async (req, res) => {
   try {
     const eleves = await loadEleves();
     const eleve = eleves.find(e => e.id === parseInt(req.params.id));
@@ -639,11 +646,9 @@ app.get('/api/eleves/:id', async (req, res) => {
     }
 
     // Vérifier si le jury a accès à cet élève
-    if (req.session && req.session.user) {
-      const user = req.session.user;
-      if (user.role === 'jury' && user.juryId && eleve.jury !== user.juryId) {
-        return res.status(403).json({ error: 'Accès refusé - Cet élève n\'est pas assigné à votre jury' });
-      }
+    const user = req.session.user;
+    if (user.role === 'jury' && user.juryId && eleve.jury !== user.juryId) {
+      return res.status(403).json({ error: 'Accès refusé - Cet élève n\'est pas assigné à votre jury' });
     }
 
     res.json(eleve);
@@ -688,7 +693,7 @@ app.delete('/api/eleves/:id', requireAdmin, async (req, res) => {
 });
 
 // POST /api/eleves - Créer un nouvel élève
-app.post('/api/eleves', async (req, res) => {
+app.post('/api/eleves', requireAdmin, async (req, res) => {
   try {
     const { nom, prenom, promotion, classe, numero, jury } = req.body;
 
@@ -1069,7 +1074,7 @@ app.get('/api/download/:filename', requireAdmin, async (req, res) => {
 });
 
 // GET /api/eleves/:id/note-calculee/:semestre - Lire la note calculée depuis l'Excel
-app.get('/api/eleves/:id/note-calculee/:semestre', async (req, res) => {
+app.get('/api/eleves/:id/note-calculee/:semestre', requireAuth, async (req, res) => {
   try {
     const eleveId = parseInt(req.params.id);
     const semestre = req.params.semestre;
@@ -1079,6 +1084,12 @@ app.get('/api/eleves/:id/note-calculee/:semestre', async (req, res) => {
 
     if (!eleve) {
       return res.status(404).json({ error: 'Élève non trouvé' });
+    }
+
+    // Vérifier que le jury a accès à cet élève
+    const user = req.session.user;
+    if (user.role === 'jury' && user.juryId && eleve.jury !== user.juryId) {
+      return res.status(403).json({ error: 'Accès refusé - Cet élève n\'est pas assigné à votre jury' });
     }
 
     const outputFileName = `${eleve.nom}_${eleve.prenom}_Evaluation.xlsx`;
@@ -1244,7 +1255,7 @@ app.get('/api/observables', async (req, res) => {
 });
 
 // POST /api/eleves/:id/recapitulatif - Sauvegarder les données du récapitulatif
-app.post('/api/eleves/:id/recapitulatif', async (req, res) => {
+app.post('/api/eleves/:id/recapitulatif', requireAuth, async (req, res) => {
   try {
     const eleveId = parseInt(req.params.id);
     const { note_proposee, commentaires } = req.body;
@@ -1266,6 +1277,12 @@ app.post('/api/eleves/:id/recapitulatif', async (req, res) => {
 
     if (eleveIndex === -1) {
       return res.status(404).json({ error: 'Élève non trouvé' });
+    }
+
+    // Vérifier que le jury a accès à cet élève
+    const user = req.session.user;
+    if (user.role === 'jury' && user.juryId && eleves[eleveIndex].jury !== user.juryId) {
+      return res.status(403).json({ error: 'Accès refusé - Cet élève n\'est pas assigné à votre jury' });
     }
 
     if (!eleves[eleveIndex].recapitulatif) {
@@ -1914,12 +1931,7 @@ app.get('/api/evaluation-lock', requireAuth, async (req, res) => {
   try {
     const lockData = await loadEvaluationLock();
     const userRole = req.session.user.role;
-
-    // Fallback pour Docker: utiliser username si juryId n'existe pas
-    let juryId = req.session.user.juryId;
-    if (!juryId && req.session.user.username) {
-      juryId = req.session.user.username;
-    }
+    const juryId = req.session.user.juryId;
 
     // Pour le jury: retourner seulement son verrouillage
     if (userRole === 'jury' && juryId) {
@@ -1953,12 +1965,7 @@ app.post('/api/evaluation-lock/set', async (req, res) => {
     }
 
     const { startDate, endDate } = req.body;
-
-    // Fallback pour Docker: utiliser username si juryId n'existe pas
-    let juryId = req.session.user.juryId;
-    if (!juryId && req.session.user.username) {
-      juryId = req.session.user.username;
-    }
+    const juryId = req.session.user.juryId;
 
     if (!juryId) {
       return res.status(400).json({ error: 'Jury ID manquant' });
@@ -2000,12 +2007,7 @@ app.post('/api/evaluation-lock/unlock', async (req, res) => {
       return res.status(403).json({ error: 'Accès refusé. Seuls les jurys peuvent débloquer.' });
     }
 
-    // Fallback pour Docker: utiliser username si juryId n'existe pas
-    let juryId = req.session.user.juryId;
-    if (!juryId && req.session.user.username) {
-      juryId = req.session.user.username;
-    }
-
+    const juryId = req.session.user.juryId;
     if (!juryId) {
       return res.status(400).json({ error: 'Jury ID manquant' });
     }

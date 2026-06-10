@@ -22,7 +22,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const response = await fetch(`${API_BASE}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // Important pour les cookies de session
       body: JSON.stringify({ username, password })
     });
 
@@ -34,9 +33,11 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 
     showMessage('Connexion réussie...', 'success');
 
-    // Rediriger vers la page d'accueil
+    // Si un changement de mot de passe est imposé (ex: après réinitialisation par
+    // l'admin ou changement de jury), rediriger vers la page de changement
+    const destination = data.mustChangePassword ? '/change-password' : '/';
     setTimeout(() => {
-      window.location.href = '/';
+      window.location.href = destination;
     }, 500);
   } catch (error) {
     console.error('Erreur:', error);
