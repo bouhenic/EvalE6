@@ -378,6 +378,18 @@ function validateObject(value, fieldName, required = true) {
   return true;
 }
 
+// Construit un nom de fichier Excel sûr à partir de l'élève.
+// Protection path traversal en écriture : nom/prenom ne sont pas garantis exempts
+// de séparateurs (/ \) ni de séquences "..". On retire les caractères de chemin et
+// illégaux et on neutralise les ".." ; le résultat ne peut donc pas sortir d'EXPORT_DIR.
+function buildExcelFileName(eleve) {
+  const clean = (s) => String(s || '')
+    .replace(/[\/\\:*?"<>|\x00-\x1F]/g, '') // séparateurs de chemin + caractères illégaux
+    .replace(/\.{2,}/g, '.')                // neutralise les séquences ".."
+    .trim();
+  return `${clean(eleve.nom)}_${clean(eleve.prenom)}_Evaluation.xlsx`;
+}
+
 // Validation du type de fichier par magic number (octets de signature)
 async function validatePDFFile(filePath) {
   try {
@@ -690,7 +702,7 @@ app.delete('/api/eleves/:id', requireAdmin, async (req, res) => {
 
     // Optionnel: Supprimer le fichier Excel associé s'il existe
     try {
-      const outputFileName = `${eleve.nom}_${eleve.prenom}_Evaluation.xlsx`;
+      const outputFileName = buildExcelFileName(eleve);
       const outputPath = path.join(EXPORT_DIR, outputFileName);
       await fs.unlink(outputPath);
     } catch (error) {
@@ -895,7 +907,7 @@ app.post('/api/eleves/:id/remplir-excel', checkEvaluationAccess, async (req, res
       return res.status(400).json({ error: 'Aucune donnée d\'évaluation trouvée pour ce semestre' });
     }
 
-    outputFileName = `${eleve.nom}_${eleve.prenom}_Evaluation.xlsx`;
+    outputFileName = buildExcelFileName(eleve);
     const outputPath = path.join(EXPORT_DIR, outputFileName);
 
     // Vérifier que le fichier existe
@@ -1104,7 +1116,7 @@ app.get('/api/eleves/:id/note-calculee/:semestre', requireAuth, async (req, res)
       return res.status(403).json({ error: 'Accès refusé - Cet élève n\'est pas assigné à votre jury' });
     }
 
-    const outputFileName = `${eleve.nom}_${eleve.prenom}_Evaluation.xlsx`;
+    const outputFileName = buildExcelFileName(eleve);
     const outputPath = path.join(EXPORT_DIR, outputFileName);
 
     // Vérifier que le fichier existe
@@ -1333,7 +1345,7 @@ app.post('/api/eleves/:id/generer-excel-complet', requireAdmin, async (req, res)
     await fs.mkdir(EXPORT_DIR, { recursive: true });
 
     // Nom du fichier de sortie
-    outputFileName = `${eleve.nom}_${eleve.prenom}_Evaluation.xlsx`;
+    outputFileName = buildExcelFileName(eleve);
     const outputPath = path.join(EXPORT_DIR, outputFileName);
 
     // Acquérir le verrou pour éviter les écritures concurrentes
