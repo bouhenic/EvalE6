@@ -173,14 +173,14 @@ function displayEleves(eleves) {
             <button class="action-item btn-generer" data-id="${eleve.id}">
               📄 Générer Excel
             </button>
-            <button class="action-item btn-telecharger" data-id="${eleve.id}" data-nom="${eleve.nom}" data-prenom="${eleve.prenom}">
+            <button class="action-item btn-telecharger" data-id="${eleve.id}" data-nom="${escapeHtml(eleve.nom)}" data-prenom="${escapeHtml(eleve.prenom)}">
               ⬇️ Télécharger Excel
             </button>
             <div class="action-divider"></div>
             <button class="action-item btn-modifier" data-id="${eleve.id}">
               ✏️ Modifier
             </button>
-            <button class="action-item action-danger btn-supprimer" data-id="${eleve.id}" data-nom="${eleve.nom}" data-prenom="${eleve.prenom}">
+            <button class="action-item action-danger btn-supprimer" data-id="${eleve.id}" data-nom="${escapeHtml(eleve.nom)}" data-prenom="${escapeHtml(eleve.prenom)}">
               🗑️ Supprimer
             </button>
           </div>
@@ -660,15 +660,15 @@ async function loadProjetsInModal() {
           <div style="margin-top: 0.5rem;">
             ${projet.cahierChargesFilename ? `
               <span style="font-size: 0.75rem; color: #48bb78;">✓ Cahier des charges: ${escapeHtml(projet.cahierChargesOriginalName || projet.cahierChargesFilename)}</span>
-              <button class="btn btn-sm btn-secondary" onclick="window.location.href='${API_BASE}/projets/${escapeHtml(projet.id)}/cahier-charges'" style="margin-left: 0.5rem; padding: 0.25rem 0.5rem;">📄 Télécharger</button>
-              <button class="btn btn-sm btn-danger" onclick="deleteCahierChargesFromModal('${escapeHtml(projet.id)}', '${escapeHtml(projet.nom)}')" style="margin-left: 0.25rem; padding: 0.25rem 0.5rem;">🗑️</button>
+              <button class="btn btn-sm btn-secondary" data-action="download-cdc-modal" data-id="${escapeHtml(projet.id)}" style="margin-left: 0.5rem; padding: 0.25rem 0.5rem;">📄 Télécharger</button>
+              <button class="btn btn-sm btn-danger" data-action="delete-cdc-modal" data-id="${escapeHtml(projet.id)}" data-nom="${escapeHtml(projet.nom)}" style="margin-left: 0.25rem; padding: 0.25rem 0.5rem;">🗑️</button>
             ` : `
               <label for="upload-cdc-${escapeHtml(projet.id)}" class="btn btn-sm btn-secondary" style="cursor: pointer; display: inline-block; padding: 0.25rem 0.5rem;">📤 Uploader cahier des charges</label>
-              <input type="file" id="upload-cdc-${escapeHtml(projet.id)}" accept=".pdf" style="display: none;" onchange="uploadCahierChargesFromModal('${escapeHtml(projet.id)}', this)">
+              <input type="file" id="upload-cdc-${escapeHtml(projet.id)}" accept=".pdf" style="display: none;" data-action="upload-cdc-modal" data-id="${escapeHtml(projet.id)}">
             `}
           </div>
         </div>
-        <button class="btn btn-danger btn-sm" onclick="deleteProjetFromModal('${escapeHtml(projet.id)}', '${escapeHtml(projet.nom)}')">🗑️ Supprimer projet</button>
+        <button class="btn btn-danger btn-sm" data-action="delete-projet-modal" data-id="${escapeHtml(projet.id)}" data-nom="${escapeHtml(projet.nom)}">🗑️ Supprimer projet</button>
       </div>
     `).join('');
   } catch (error) {
@@ -1125,7 +1125,7 @@ function displayUsers(users) {
         </div>
         <button
           class="btn btn-secondary btn-sm"
-          onclick="resetUserPassword('${escapeHtml(user.username)}')"
+          data-action="reset-password" data-username="${escapeHtml(user.username)}"
           ${user.username === 'admin' ? 'style="visibility: hidden;"' : ''}
         >
           🔒 Réinitialiser mot de passe
@@ -1450,10 +1450,47 @@ function closeLockModal() {
 }
 
 // Initialisation
+// Délégation d'événements pour le contenu généré dynamiquement
+// (remplace les handlers inline onclick/onchange -> compatible CSP sans 'unsafe-inline')
+function setupModalDelegation() {
+  const projetsList = document.getElementById('projets-list');
+  if (projetsList) {
+    projetsList.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-action]');
+      if (!el) return;
+      const id = el.dataset.id;
+      switch (el.dataset.action) {
+        case 'download-cdc-modal':
+          window.location.href = `${API_BASE}/projets/${id}/cahier-charges`;
+          break;
+        case 'delete-cdc-modal':
+          deleteCahierChargesFromModal(id, el.dataset.nom);
+          break;
+        case 'delete-projet-modal':
+          deleteProjetFromModal(id, el.dataset.nom);
+          break;
+      }
+    });
+    projetsList.addEventListener('change', (e) => {
+      const input = e.target.closest('[data-action="upload-cdc-modal"]');
+      if (input) uploadCahierChargesFromModal(input.dataset.id, input);
+    });
+  }
+
+  const usersList = document.getElementById('users-list');
+  if (usersList) {
+    usersList.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-action="reset-password"]');
+      if (el) resetUserPassword(el.dataset.username);
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Attendre la vérification d'authentification
   await new Promise(resolve => setTimeout(resolve, 100));
 
+  setupModalDelegation();
   loadSettings();
   await loadProjets();
   await loadJuryMembers();

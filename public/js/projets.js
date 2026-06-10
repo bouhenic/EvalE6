@@ -27,17 +27,18 @@ function displayProjets(projets) {
   }
 
   tbody.innerHTML = projets.map((projet, index) => {
+    const id = escapeHtml(projet.id);
     const cahierChargesHTML = projet.cahierChargesFilename
       ? `
         <div style="display: flex; gap: 0.5rem; flex-direction: column;">
-          <button class="btn btn-sm btn-secondary" onclick="downloadCahierCharges('${escapeHtml(projet.id)}', '${escapeHtml(projet.cahierChargesOriginalName || 'cahier-charges.pdf')}')">📄 Télécharger</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteCahierCharges('${escapeHtml(projet.id)}')">🗑️ Supprimer</button>
+          <button class="btn btn-sm btn-secondary" data-action="download-cdc" data-id="${id}" data-filename="${escapeHtml(projet.cahierChargesOriginalName || 'cahier-charges.pdf')}">📄 Télécharger</button>
+          <button class="btn btn-sm btn-danger" data-action="delete-cdc" data-id="${id}">🗑️ Supprimer</button>
         </div>
       `
       : `
         <div>
-          <input type="file" id="file-${escapeHtml(projet.id)}" accept=".pdf" style="display: none;" onchange="uploadCahierCharges('${escapeHtml(projet.id)}')">
-          <button class="btn btn-sm btn-primary" onclick="document.getElementById('file-${escapeHtml(projet.id)}').click()">📤 Uploader PDF</button>
+          <input type="file" id="file-${id}" accept=".pdf" style="display: none;" data-action="upload-cdc" data-id="${id}">
+          <button class="btn btn-sm btn-primary" data-action="trigger-upload" data-id="${id}">📤 Uploader PDF</button>
         </div>
       `;
 
@@ -48,11 +49,34 @@ function displayProjets(projets) {
         <td>${escapeHtml(projet.description) || '-'}</td>
         <td>${cahierChargesHTML}</td>
         <td>
-          <button class="btn btn-sm btn-danger" onclick="deleteProjet('${escapeHtml(projet.id)}')">Supprimer</button>
+          <button class="btn btn-sm btn-danger" data-action="delete-projet" data-id="${id}">Supprimer</button>
         </td>
       </tr>
     `;
   }).join('');
+}
+
+// Délégation d'événements (remplace les handlers inline -> compatible CSP sans 'unsafe-inline')
+function setupProjetsDelegation() {
+  const tbody = document.getElementById('projets-tbody');
+  if (!tbody) return;
+
+  tbody.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-action]');
+    if (!el) return;
+    const id = el.dataset.id;
+    switch (el.dataset.action) {
+      case 'download-cdc': downloadCahierCharges(id, el.dataset.filename); break;
+      case 'delete-cdc': deleteCahierCharges(id); break;
+      case 'delete-projet': deleteProjet(id); break;
+      case 'trigger-upload': document.getElementById(`file-${id}`)?.click(); break;
+    }
+  });
+
+  tbody.addEventListener('change', (e) => {
+    const input = e.target.closest('[data-action="upload-cdc"]');
+    if (input) uploadCahierCharges(input.dataset.id);
+  });
 }
 
 // Ajouter un projet
@@ -205,5 +229,6 @@ document.getElementById('btn-confirm-add').addEventListener('click', (e) => {
 
 // Charger les projets au démarrage
 document.addEventListener('DOMContentLoaded', () => {
+  setupProjetsDelegation();
   loadProjets();
 });

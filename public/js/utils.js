@@ -4,8 +4,7 @@
  */
 
 // Configuration de base de l'API
-// Utilise l'origine actuelle pour fonctionner en local et en production
-window.API_BASE = `${window.location.origin}/api`;
+window.API_BASE = 'https://localhost:3001/api';
 
 /**
  * Affiche un message temporaire à l'utilisateur
@@ -38,7 +37,12 @@ window.showMessage = function(message, type = 'info') {
  */
 window.escapeHtml = function(text) {
   if (text === null || text === undefined) return '';
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+  // Échappe &, <, >, " et ' — sûr en contenu d'élément ET en valeur d'attribut.
+  // (& doit être traité en premier.) Round-trip correct via dataset/textContent.
+  return String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 };

@@ -265,9 +265,9 @@ function displayJuryMembers() {
       <tbody>
         ${validMembers.map(member => `
           <tr style="border-bottom: 1px solid #e2e8f0;">
-            <td style="padding: 0.75rem;">${member.nom || '-'}</td>
-            <td style="padding: 0.75rem;">${member.prenom || '-'}</td>
-            <td style="padding: 0.75rem;">${member.qualite || '-'}</td>
+            <td style="padding: 0.75rem;">${escapeHtml(member.nom) || '-'}</td>
+            <td style="padding: 0.75rem;">${escapeHtml(member.prenom) || '-'}</td>
+            <td style="padding: 0.75rem;">${escapeHtml(member.qualite) || '-'}</td>
           </tr>
         `).join('')}
       </tbody>

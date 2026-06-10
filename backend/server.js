@@ -14,7 +14,8 @@ const multer = require('multer');
 const crypto = require('crypto');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
+const { doubleCsrf } = require('csrf-csrf');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -72,8 +73,10 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
+      // 'unsafe-inline' conservé pour les styles inline (faible risque) ;
+      // retiré de scriptSrc : tout le JS inline (handlers on*) a été supprimé
       styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
       imgSrc: ["'self'", "data:"],
       connectSrc: ["'self'"]
     }
@@ -106,6 +109,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(bodyParser.json());
+app.use(cookieParser()); // Requis par csrf-csrf pour lire le cookie CSRF
 app.use(generalLimiter); // Appliquer le rate limiting global
 app.use(session({
   secret: SESSION_SECRET,
@@ -119,17 +123,24 @@ app.use(session({
   }
 }));
 
-// Protection CSRF
-const csrfProtection = csrf({ cookie: false }); // Utilise la session au lieu des cookies
-
-// Middleware conditionnel pour appliquer CSRF à toutes les routes state-changing sauf login
-app.use((req, res, next) => {
-  // Appliquer CSRF protection à toutes les requêtes POST/PATCH/DELETE/PUT sauf le login
-  if (['POST', 'PATCH', 'DELETE', 'PUT'].includes(req.method) && req.path !== '/api/auth/login') {
-    return csrfProtection(req, res, next);
-  }
-  next();
+// Protection CSRF (csrf-csrf : double-submit cookie signé HMAC, lié à la session)
+const { generateCsrfToken, doubleCsrfProtection } = doubleCsrf({
+  getSecret: () => process.env.CSRF_SECRET || SESSION_SECRET,
+  getSessionIdentifier: (req) => req.sessionID || '',
+  cookieName: '__Host-e6.x-csrf-token',
+  cookieOptions: {
+    sameSite: 'strict',
+    secure: true,
+    httpOnly: true,
+    path: '/'
+  },
+  // Accepter le token via l'en-tête envoyé par le frontend (CSRF-Token -> csrf-token)
+  getCsrfTokenFromRequest: (req) => req.headers['csrf-token'] || req.headers['x-csrf-token'],
+  // GET/HEAD/OPTIONS sont déjà ignorés ; on exempte en plus le login (pas de token au préalable)
+  skipCsrfProtection: (req) => req.path === '/api/auth/login'
 });
+
+app.use(doubleCsrfProtection);
 
 // Chemins
 const DATA_DIR = path.join(__dirname, '../data');
@@ -391,9 +402,10 @@ app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/login.html'));
 });
 
-// Route pour obtenir le token CSRF
-app.get('/api/csrf-token', csrfProtection, (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
+// Route pour obtenir le token CSRF (génère le token et pose le cookie associé)
+app.get('/api/csrf-token', (req, res) => {
+  const csrfToken = generateCsrfToken(req, res);
+  res.json({ csrfToken });
 });
 
 // Routes d'authentification

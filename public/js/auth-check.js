@@ -31,7 +31,7 @@ function addLogoutButton(user) {
     userInfo.id = 'user-info';
     userInfo.style.cssText = 'position: absolute; top: 1rem; right: 1rem; font-size: 0.875rem;';
     userInfo.innerHTML = `
-      <span style="opacity: 0.9;">Connecté en tant que <strong>${user.username}</strong> (${user.role})</span>
+      <span style="opacity: 0.9;">Connecté en tant que <strong>${escapeHtml(user.username)}</strong> (${escapeHtml(user.role)})</span>
       <button id="btn-logout" class="btn btn-secondary" style="margin-left: 1rem; padding: 0.375rem 0.75rem; font-size: 0.875rem;">Déconnexion</button>
     `;
     header.appendChild(userInfo);

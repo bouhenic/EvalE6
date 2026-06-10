@@ -181,7 +181,7 @@ function createCompetenceSection(compCode, compData) {
   const header = document.createElement('div');
   header.className = 'competence-header';
   header.innerHTML = `
-    <h3>${compCode} : ${compData.nom}</h3>
+    <h3>${escapeHtml(compCode)} : ${escapeHtml(compData.nom)}</h3>
   `;
   section.appendChild(header);
 
@@ -197,10 +197,10 @@ function createCompetenceSection(compCode, compData) {
   thead.innerHTML = `
     <tr>
       <th>Critère</th>
-      <th class="niveau-col">${niveaux.niveau_1.label}</th>
-      <th class="niveau-col">${niveaux.niveau_2.label}</th>
-      <th class="niveau-col">${niveaux.niveau_3.label}</th>
-      <th class="niveau-col">${niveaux.niveau_4.label}</th>
+      <th class="niveau-col">${escapeHtml(niveaux.niveau_1.label)}</th>
+      <th class="niveau-col">${escapeHtml(niveaux.niveau_2.label)}</th>
+      <th class="niveau-col">${escapeHtml(niveaux.niveau_3.label)}</th>
+      <th class="niveau-col">${escapeHtml(niveaux.niveau_4.label)}</th>
     </tr>
   `;
   table.appendChild(thead);
@@ -246,7 +246,7 @@ function createCompetenceSection(compCode, compData) {
       const td = document.createElement('td');
       td.className = 'niveau-cell';
       td.innerHTML = `
-        <input type="radio" name="${critere.id}" value="${i}"
+        <input type="radio" name="${escapeHtml(critere.id)}" value="${i}"
           ${niveauActuel === i ? 'checked' : ''}>
       `;
       tr.appendChild(td);
@@ -279,7 +279,7 @@ function createChampsSupplementairesSection(champsData) {
     const noteCalculeeDiv = document.createElement('div');
     noteCalculeeDiv.className = 'champ-item';
     noteCalculeeDiv.innerHTML = `
-      <label for="note_calculee">${champsData.note_calculee.label}:</label>
+      <label for="note_calculee">${escapeHtml(champsData.note_calculee.label)}:</label>
       <input type="text" id="note_calculee" name="note_calculee" readonly value="--" placeholder="Calculée automatiquement">
       <small style="color: #78350f; display: block; margin-top: 0.25rem; font-style: italic;">
         La note sera affichée automatiquement après avoir finalisé l'évaluation.
@@ -292,8 +292,8 @@ function createChampsSupplementairesSection(champsData) {
     const bonusDiv = document.createElement('div');
     bonusDiv.className = 'champ-item';
     bonusDiv.innerHTML = `
-      <label for="bonus">${champsData.bonus.label}:</label>
-      <input type="number" id="bonus" name="bonus" min="0" max="${champsData.bonus.max}" step="0.5" value="0">
+      <label for="bonus">${escapeHtml(champsData.bonus.label)}:</label>
+      <input type="number" id="bonus" name="bonus" min="0" max="${escapeHtml(String(champsData.bonus.max))}" step="0.5" value="0">
     `;
     container.appendChild(bonusDiv);
   }
@@ -302,7 +302,7 @@ function createChampsSupplementairesSection(champsData) {
     const noteFinalDiv = document.createElement('div');
     noteFinalDiv.className = 'champ-item';
     noteFinalDiv.innerHTML = `
-      <label for="note_finale">${champsData.note_finale.label}:</label>
+      <label for="note_finale">${escapeHtml(champsData.note_finale.label)}:</label>
       <input type="number" id="note_finale" name="note_finale" min="0" max="20" step="0.5">
     `;
     container.appendChild(noteFinalDiv);
