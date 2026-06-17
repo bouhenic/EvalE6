@@ -4,7 +4,8 @@
  */
 
 // Configuration de base de l'API
-window.API_BASE = 'https://localhost:3001/api';
+// Basée sur l'origine courante : fonctionne en localhost comme via une IP/domaine distant
+window.API_BASE = `${window.location.origin}/api`;
 
 /**
  * Affiche un message temporaire à l'utilisateur
