@@ -1,37 +1,69 @@
-# Application E6 BTS CIEL - Version Docker
+# Application E6 BTS CIEL — Version Docker
 
-Application web pour la gestion et l'évaluation des étudiants BTS CIEL pour l'épreuve E6: Valorisation de la donnée et cybersécurité.
+Application web pour la gestion et l'évaluation des étudiants BTS CIEL pour l'épreuve **E6 : Valorisation de la donnée et cybersécurité**.
 
 ## Prérequis
 
 - Docker Engine 20.10 ou supérieur
-- Docker Compose 2.0 ou supérieur
+- Docker Compose v2 (commande `docker compose`)
+- `git`
 
 ## Installation et démarrage rapide
 
-### 1. Construction de l'image Docker
+### 1. Récupérer le code
 
 ```bash
-docker-compose build
+git clone https://github.com/bouhenic/EvalE6.git
+cd EvalE6
 ```
 
-### 2. Démarrage de l'application
+### 2. Construire l'image
 
 ```bash
-docker-compose up -d
+docker compose build
 ```
 
-L'application sera accessible sur : **https://localhost:3001**
-
-### 3. Arrêt de l'application
+### 3. Démarrer l'application
 
 ```bash
-docker-compose down
+docker compose up -d
 ```
 
-## Identifiants par défaut
+### 4. Arrêter l'application
 
-L'application est initialisée avec trois comptes par défaut :
+```bash
+docker compose down
+```
+
+## Accès à l'application
+
+L'application écoute en **HTTPS sur le port 3001**. Le frontend détecte automatiquement
+l'adresse utilisée (il s'appuie sur `window.location.origin`), donc l'application
+fonctionne quelle que soit la façon dont on y accède :
+
+| Contexte d'accès | URL |
+|---|---|
+| Sur la machine qui héberge le conteneur | `https://localhost:3001` |
+| Depuis un autre poste (VM, serveur distant) | `https://<IP-ou-domaine-du-serveur>:3001` |
+
+> ℹ️ Les versions antérieures avaient les URLs d'API codées en dur sur `https://localhost:3001`,
+> ce qui provoquait une erreur **« load failed »** dès qu'on accédait à l'application par une
+> IP/un domaine distant (mauvaise cible + blocage CSP `connect-src`). C'est corrigé : les
+> requêtes visent désormais la même origine que la page.
+
+### Certificat HTTPS
+
+L'application génère un **certificat auto-signé** au démarrage du conteneur. Le navigateur
+affichera donc un avertissement de sécurité — c'est normal, accepter l'exception pour continuer.
+
+⚠️ Le certificat est émis pour `localhost` / `127.0.0.1` **uniquement**. En accès par IP ou
+domaine distant, l'avertissement réapparaîtra à chaque fois. Pour un usage propre, fournir un
+certificat valide (voir [Pour la production](#pour-une-utilisation-en-production)) ou régénérer
+le certificat avec votre IP/domaine dans les SAN.
+
+## Première connexion
+
+L'application est initialisée avec trois comptes :
 
 | Utilisateur | Rôle  |
 |-------------|-------|
@@ -39,187 +71,161 @@ L'application est initialisée avec trois comptes par défaut :
 | `jury1`     | Jury  |
 | `jury2`     | Jury  |
 
-Les mots de passe initiaux **ne sont volontairement pas publiés** ici : ils doivent
-être transmis hors-dépôt (canal séparé). Les trois comptes sont créés avec le flag
-`mustChangePassword: true` — **à la première connexion, chaque utilisateur est obligé
-de définir son propre mot de passe**.
+Les mots de passe initiaux **ne sont volontairement pas publiés** ici : ils doivent être
+transmis hors-dépôt (canal séparé). Les trois comptes ont le flag `mustChangePassword: true` :
+**à la première connexion, chaque utilisateur est redirigé vers une page imposant le choix de
+son propre mot de passe**. Il n'y a pas d'écran d'inscription — on se connecte avec
+l'identifiant initial, puis on définit son mot de passe.
 
-> ⚠️ Avant toute mise en production : remplacez les mots de passe par défaut du fichier
-> `data/users.json` (hash bcrypt). Génération d'un hash :
+> ⚠️ Réinitialiser un mot de passe oublié : l'admin peut réinitialiser celui d'un jury depuis
+> l'interface (« Gérer les utilisateurs »). Pour le compte admin lui-même, il faut éditer le
+> hash bcrypt dans `data/users.json` (voir [Réinitialiser les comptes](#réinitialiser-les-comptes)).
+> Génération d'un hash :
 > `node -e "require('bcryptjs').hash('VotreMotDePasse', 10).then(h=>console.log(h))"`
 
 ## Gestion des données
 
 ### Volumes Docker
 
-Les données sont stockées dans des volumes Docker persistants :
+Les données sont stockées dans des **volumes Docker persistants** (préfixés par le nom du
+projet, soit `evale6` si le dossier s'appelle `EvalE6`) :
 
-- `evale6_e6-data` : Données des étudiants, utilisateurs, jurys et projets
-- `evale6_e6-export` : Fichiers Excel générés
-- `evale6_e6-rapports` : Cahiers des charges (PDF) des projets
+- `evale6_e6-data` : étudiants, utilisateurs, jurys et projets (`data/`)
+- `evale6_e6-export` : fichiers Excel générés (`export/`)
+- `evale6_e6-rapports` : cahiers des charges PDF (`rapports/`)
 
-### Sauvegarde des données
+> ⚠️ **Important — le seed n'est copié qu'à la création du volume.** Docker n'initialise un
+> volume nommé qu'à sa **première** création (à partir du contenu `data/` de l'image). Un
+> `docker compose up --build` reconstruit bien l'image et le **code** (frontend `public/`,
+> backend), mais **ne met pas à jour le contenu des volumes** déjà existants. Conséquence : un
+> ancien `data/users.json` figé dans le volume continue d'être utilisé. Pour repartir du seed,
+> il faut recréer le volume (voir [Réinitialiser les comptes](#réinitialiser-les-comptes)).
 
-Pour sauvegarder les données :
+### Sauvegarde
 
 ```bash
-# Créer un dossier de sauvegarde
 mkdir -p ./backup
-
-# Sauvegarder le volume data
-docker run --rm -v evale6_e6-data:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-data-backup.tar.gz -C /data .
-
-# Sauvegarder le volume export
-docker run --rm -v evale6_e6-export:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-export-backup.tar.gz -C /data .
-
-# Sauvegarder le volume rapports
+docker run --rm -v evale6_e6-data:/data    -v $(pwd)/backup:/backup alpine tar czf /backup/e6-data-backup.tar.gz    -C /data .
+docker run --rm -v evale6_e6-export:/data  -v $(pwd)/backup:/backup alpine tar czf /backup/e6-export-backup.tar.gz  -C /data .
 docker run --rm -v evale6_e6-rapports:/data -v $(pwd)/backup:/backup alpine tar czf /backup/e6-rapports-backup.tar.gz -C /data .
 ```
 
-### Restauration des données
-
-Pour restaurer une sauvegarde :
+### Restauration
 
 ```bash
-# Arrêter l'application
-docker-compose down
-
-# Restaurer le volume data
-docker run --rm -v evale6_e6-data:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-data-backup.tar.gz -C /data"
-
-# Restaurer le volume export
-docker run --rm -v evale6_e6-export:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-export-backup.tar.gz -C /data"
-
-# Restaurer le volume rapports
+docker compose down
+docker run --rm -v evale6_e6-data:/data    -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-data-backup.tar.gz    -C /data"
+docker run --rm -v evale6_e6-export:/data  -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-export-backup.tar.gz  -C /data"
 docker run --rm -v evale6_e6-rapports:/data -v $(pwd)/backup:/backup alpine sh -c "rm -rf /data/* && tar xzf /backup/e6-rapports-backup.tar.gz -C /data"
-
-# Redémarrer l'application
-docker-compose up -d
+docker compose up -d
 ```
+
+## Mettre à jour l'application
+
+```bash
+git pull
+docker compose up -d --build
+```
+
+Le rebuild met à jour le **code** (frontend et backend, copiés dans l'image). Les **données**
+des volumes (`data/`, `export/`, `rapports/`) sont conservées et **ne sont pas** réécrites par
+la mise à jour. Si une mise à jour change le schéma du seed (`data/users.json`), voir la section
+suivante.
 
 ## Commandes utiles
 
-### Voir les logs
-
 ```bash
-# Logs en temps réel
-docker-compose logs -f
-
-# Derniers logs
-docker-compose logs --tail=100
-```
-
-### Redémarrer l'application
-
-```bash
-docker-compose restart
-```
-
-### Mettre à jour l'application
-
-```bash
-# Arrêter l'application
-docker-compose down
-
-# Reconstruire l'image
-docker-compose build --no-cache
-
-# Redémarrer l'application
-docker-compose up -d
-```
-
-### Accéder au conteneur
-
-```bash
-docker-compose exec e6-app sh
-```
-
-### Vérifier l'état de santé
-
-```bash
-docker-compose ps
+docker compose logs -f            # logs en temps réel
+docker compose logs --tail=100    # derniers logs
+docker compose restart            # redémarrer (vide aussi le compteur de rate-limiting en mémoire)
+docker compose ps                 # état / santé des conteneurs
+docker compose exec e6-app sh     # shell dans le conteneur
 ```
 
 ## Configuration
 
-### Variable d'environnement SESSION_SECRET
+### SESSION_SECRET
 
-L'application utilise une clé secrète pour sécuriser les sessions utilisateur. Par défaut, une clé est définie dans `docker-compose.yml`.
+L'application **exige** une clé secrète de session au démarrage. Une valeur est fournie dans
+`docker-compose.yml` pour le développement.
 
-**IMPORTANT pour la production** : Changez la valeur de `SESSION_SECRET` dans `docker-compose.yml` avant de déployer en production :
+**IMPORTANT en production** : remplacer la valeur de `SESSION_SECRET` dans `docker-compose.yml` :
 
 ```yaml
 environment:
-  - SESSION_SECRET=votre_clé_secrète_sécurisée_minimum_32_caractères
+  - SESSION_SECRET=votre_clé_secrète_minimum_32_caractères
 ```
 
-Pour générer une clé sécurisée :
+Générer une clé :
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-### Configuration HTTPS
-
-L'application génère automatiquement des certificats SSL auto-signés au démarrage du conteneur.
-
-**Note** : Votre navigateur affichera un avertissement de sécurité. C'est normal pour les certificats auto-signés. Vous pouvez accepter l'exception de sécurité pour continuer.
-
 ### Pour une utilisation en production
 
-Pour une utilisation en production avec des certificats valides :
+1. Obtenir un certificat SSL valide (Let's Encrypt, etc.).
+2. Monter les certificats dans le conteneur via `docker-compose.yml` :
 
-1. Obtenez un certificat SSL valide (Let's Encrypt, etc.)
-2. Montez vos certificats dans le conteneur en modifiant `docker-compose.yml` :
+   ```yaml
+   services:
+     e6-app:
+       volumes:
+         - ./certs:/app/certs:ro
+   ```
 
-```yaml
-services:
-  e6-app:
-    volumes:
-      - ./certs:/app/certs:ro  # Ajoutez cette ligne
-```
-
-3. Placez vos certificats dans le dossier `./certs` :
-   - `localhost+2.pem` : Certificat
-   - `localhost+2-key.pem` : Clé privée
+3. Placer les fichiers dans `./certs` :
+   - `localhost+2.pem` : certificat
+   - `localhost+2-key.pem` : clé privée
 
 ## Dépannage
 
+### « load failed » au login
+
+Symptôme : la page de connexion s'affiche mais la connexion échoue avec « load failed »
+(console : *Refused to connect … connect-src*). Cause : version antérieure avec URLs d'API
+codées en dur sur `localhost`. **Corrigé dans la version actuelle** — faire `git pull` puis
+`docker compose up -d --build`, et recharger la page en vidant le cache (Ctrl+Shift+R).
+
+### Impossible de se connecter avec les identifiants attendus
+
+Le plus souvent, le volume `evale6_e6-data` contient un **ancien `data/users.json`** (le seed
+de l'image n'écrase pas un volume existant — voir [Volumes Docker](#volumes-docker)). Vérifier
+ce que voit réellement le conteneur :
+
+```bash
+docker compose exec e6-app cat /app/data/users.json
+```
+
+Si ce n'est pas le seed attendu, voir [Réinitialiser les comptes](#réinitialiser-les-comptes).
+
+> Après plusieurs tentatives échouées, le rate-limiting peut bloquer temporairement le login
+> (5 essais). Un `docker compose restart e6-app` remet le compteur à zéro.
+
+### Réinitialiser les comptes
+
+Pour réappliquer le seed du dépôt (⚠️ **supprime les données du volume `data`**) :
+
+```bash
+docker compose down
+docker volume rm evale6_e6-data      # si "volume is in use", supprimer d'abord le conteneur qui le retient
+docker compose up -d --build
+```
+
 ### Le port 3001 est déjà utilisé
 
-Si le port 3001 est déjà utilisé, modifiez le dans `docker-compose.yml` :
+Modifier le mapping dans `docker-compose.yml` :
 
 ```yaml
 ports:
-  - "8443:3001"  # Changez 3001 par le port souhaité
+  - "8443:3001"   # accès via le port 8443
 ```
 
-### Réinitialiser complètement l'application
-
-Pour repartir de zéro (supprime TOUTES les données) :
+### Réinitialiser complètement (toutes les données)
 
 ```bash
-# Arrêter et supprimer les conteneurs
-docker-compose down
-
-# Supprimer les volumes
+docker compose down
 docker volume rm evale6_e6-data evale6_e6-export evale6_e6-rapports
-
-# Reconstruire et redémarrer
-docker-compose up -d
-```
-
-### Problèmes de permissions
-
-Si vous rencontrez des problèmes de permissions :
-
-```bash
-# Redémarrer le conteneur
-docker-compose restart
-
-# Si le problème persiste, reconstruire l'image
-docker-compose down
-docker-compose build --no-cache
-docker-compose up -d
+docker compose up -d --build
 ```
 
 ## Architecture
@@ -227,38 +233,36 @@ docker-compose up -d
 ### Structure des fichiers
 
 ```
-DockerE6/
-├── backend/              # Code serveur Node.js
-├── public/               # Fichiers frontend (HTML, CSS, JS)
-├── config/               # Configuration (mapping Excel, observables)
-├── modeles/              # Template Excel GRILLE_E6.xlsx
-├── data/                 # Données (étudiants, utilisateurs, jurys)
-├── export/               # Fichiers Excel générés
-├── rapports/             # Cahiers des charges (PDF)
-├── certs/                # Certificats SSL
-├── Dockerfile            # Configuration Docker
-├── docker-compose.yml    # Orchestration Docker
-└── README.md             # Ce fichier
+EvalE6/
+├── backend/            # Serveur Node.js / Express (HTTPS)
+├── public/             # Frontend (HTML, CSS, JS)
+├── config/             # mapping Excel + observables
+├── modeles/            # Template Excel GRILLE_E6.xlsx
+├── data/               # Données seed (étudiants, utilisateurs, jurys, projets)
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
 ```
 
-### Ports utilisés
+> Les certificats SSL et les fichiers `export/` / `rapports/` sont générés à l'exécution
+> (dans le conteneur / les volumes), pas versionnés dans le dépôt.
 
-- `3001` : Port HTTPS de l'application
+### Ports
+
+- `3001` : HTTPS de l'application
 
 ## Fonctionnalités
 
-### Pour l'administrateur
+### Administrateur
 
-- Gestion des étudiants (ajout, modification, suppression)
+- Gestion des étudiants (ajout, modification, suppression, affectation jury/projet)
 - Gestion des jurys et de leurs membres
-- Gestion des projets
-- Upload/download des cahiers des charges
+- Gestion des projets et des cahiers des charges (upload/download)
 - Évaluations complètes (stage, revues, soutenance)
 - Génération automatique des fichiers Excel
-- Configuration de l'établissement et de l'académie
-- Impression des tableaux récapitulatifs
+- Configuration établissement / académie
 
-### Pour les jurys
+### Jurys
 
 - Accès restreint aux étudiants assignés
 - Évaluation de la soutenance uniquement
@@ -267,21 +271,12 @@ DockerE6/
 
 ## Sécurité
 
-- Mots de passe hashés avec bcrypt
-- Sessions sécurisées
-- Protection CSRF
-- HTTPS obligatoire
-- Isolation des jurys
-- Validation des entrées
-
-## Support
-
-Pour toute question ou problème :
-
-1. Consultez les logs : `docker-compose logs -f`
-2. Vérifiez l'état de santé : `docker-compose ps`
-3. Redémarrez l'application : `docker-compose restart`
+- Mots de passe hashés avec bcrypt + changement forcé à la première connexion
+- Sessions sécurisées (cookies `httpOnly` / `secure` / `sameSite: strict`), `SESSION_SECRET` requis au boot
+- Protection CSRF (`csrf-csrf`, double-submit) et CSP (`script-src 'self'`)
+- HTTPS, rate-limiting du login, isolation des jurys, validation des entrées
+- Conteneur exécuté en utilisateur non-root
 
 ## Licence
 
-Application développée pour l'évaluation BTS CIEL - Épreuve E6.
+Application développée pour l'évaluation BTS CIEL — Épreuve E6.
